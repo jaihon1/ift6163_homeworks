@@ -12,8 +12,7 @@ class BC_Trainer(object):
         #######################
         ## AGENT PARAMS
         #######################
-        print ("params2: ", params)
-        print ("params: ", params["alg"]['n_layers'])
+
         self.params = params
 
         ################
@@ -25,7 +24,7 @@ class BC_Trainer(object):
         #######################
         ## LOAD EXPERT POLICY
         #######################
-        ### Correcting for hydra logging folder. 
+        ### Correcting for hydra logging folder.
         print('Loading expert policy from...', '../../../' + self.params["env"]['expert_policy_file'])
         self.loaded_expert_policy = LoadedGaussianPolicy( '../../../' + self.params["env"]['expert_policy_file'])
         print('Done restoring expert policy...')
@@ -46,18 +45,18 @@ from omegaconf import DictConfig, OmegaConf
 
 @hydra.main(config_path="conf", config_name="config")
 def my_main(cfg: DictConfig):
-    
+
     returns = my_app(cfg)
     print ("returns: ", returns)
-    
-    
-def my_app(cfg: DictConfig): 
+
+
+def my_app(cfg: DictConfig):
     print(OmegaConf.to_yaml(cfg))
     import os
-    print("Command Dir:", os.getcwd())
+    # print("Command Dir:", os.getcwd())
     params = vars(cfg)
     # print ("params: ", json.dumps(params, indent=4))
-    print ("params: ", params)
+    # print ("params: ", params)
 
     ##################################
     ### CREATE DIRECTORY FOR LOGGING

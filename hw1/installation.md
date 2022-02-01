@@ -6,7 +6,7 @@ wget https://www.roboti.us/download/mujoco200_linux.zip
 unzip mujoco200_linux.zip
 mv mujoco200_linux mujoco200
 rm mujoco200_linux.zip
-cp <location_of_mjkey.txt> .
+wget -O mjkey.txt https://github.com/milarobotlearningcourse/ift6163_homeworks/blob/master/hw1/mjkey.txt?raw=true
 ```
 The above instructions download MuJoCo for Linux. If you are on Mac or Windows, you will need to change the `wget` address to either 
 `https://www.roboti.us/download/mujoco200_macos.zip` or `https://www.roboti.us/download/mujoco200_win64.zip`.
