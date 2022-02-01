@@ -90,13 +90,13 @@ class RL_Trainer(object):
             print("\n\n********** Iteration %i ************"%itr)
 
             # decide if videos should be rendered/logged at this iteration
-            if itr % self.params['video_log_freq'] == 0 and self.params['video_log_freq'] != -1:
+            if itr % self.params['logging']['video_log_freq'] == 0 and self.params['logging']['video_log_freq'] != -1:
                 self.log_video = True
             else:
                 self.log_video = False
 
             # decide if metrics should be logged
-            if itr % self.params['scalar_log_freq'] == 0:
+            if itr % self.params['logging']['scalar_log_freq'] == 0:
                 self.log_metrics = True
             else:
                 self.log_metrics = False
@@ -106,7 +106,7 @@ class RL_Trainer(object):
                 itr,
                 initial_expertdata,
                 collect_policy,
-                self.params['batch_size']
+                self.params['alg']['batch_size']
             )  # HW1: implement this function below
             paths, envsteps_this_batch, train_video_paths = training_returns
             self.total_envsteps += envsteps_this_batch
@@ -129,9 +129,9 @@ class RL_Trainer(object):
                 self.perform_logging(
                     itr, paths, eval_policy, train_video_paths, training_logs)
 
-                if self.params['save_params']:
+                if self.params['logging']['save_params']:
                     print('\nSaving agent params')
-                    self.agent.save('{}/policy_itr_{}.pt'.format(self.params['logdir'], itr))
+                    self.agent.save('{}/policy_itr_{}.pt'.format(self.params['logging']['logdir'], itr))
 
     ####################################
     ####################################
