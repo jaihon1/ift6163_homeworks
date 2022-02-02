@@ -121,7 +121,6 @@ class RL_Trainer(object):
                 paths = self.do_relabel_with_expert(expert_policy, paths)  # HW1: implement this function below
 
             # add collected data to replay buffer
-            print('"before replay buffer', len(paths))
             self.agent.add_to_replay_buffer(paths)
 
             # train agent (using sampled data from replay buffer)
@@ -170,13 +169,11 @@ class RL_Trainer(object):
         if itr == 0:
             print('\nLoading Expert Data')
             with open('../../.'+load_initial_expertdata, 'rb') as f:
+                # Load raw expert data
                 data = pickle.loads(f.read())
 
-                # Build expert trajectories
+                # Build expert trajectories from raw data
                 paths = utils.build_expert_trajectories(data)
-
-                # print('shape of observation', paths[0]['observation'].shape)
-                # print('shape of observation', paths[1]['observation'].shape)
 
             return paths, 0, None
 
@@ -194,8 +191,6 @@ class RL_Trainer(object):
             ## TODO look in utils and implement sample_n_trajectories
             train_video_paths = utils.sample_n_trajectories(self.env, collect_policy, MAX_NVIDEO, MAX_VIDEO_LEN, True)
 
-        print(paths[0]['observation'].shape)
-        print(paths[0]['action'].shape)
         return paths, envsteps_this_batch, train_video_paths
 
 
