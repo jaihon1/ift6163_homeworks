@@ -58,19 +58,20 @@ def build_expert_trajectories(expert_data):
     paths = []
 
     # Going through each expert trajectory
-    for i, _ in enumerate(expert_data['observation']):
+    for data in expert_data:
+
         # Build path object
-        path = Path(
-            expert_data['observation'][i],
-            [],
-            expert_data['action'][i],
-            expert_data['reward'][i],
-            expert_data['next_observation'][i],
-            expert_data['terminal'][i]
+        expert_path = Path(
+            data['observation'],
+            data['image_obs'],
+            data['action'],
+            data['reward'],
+            data['next_observation'],
+            data['terminal']
         )
 
         # Append path to paths
-        paths.append(path)
+        paths.append(expert_path)
 
     return paths
 

@@ -33,8 +33,14 @@ class ReplayBuffer(object):
         # our arrays
         observations, actions, rewards, next_observations, terminals = (
             convert_listofrollouts(paths, concat_rew))
+
         print("add_rollouts")
-        print(self.max_size, type(self.max_size))
+        print(observations.shape)
+        print(actions.shape)
+        print(rewards.shape)
+        print(next_observations.shape)
+        print(terminals.shape)
+        
         if self.obs is None:
             self.obs = observations[-self.max_size:]
             self.acs = actions[-self.max_size:]
@@ -65,6 +71,13 @@ class ReplayBuffer(object):
     ########################################
 
     def sample_random_data(self, batch_size):
+        print("sample_random_data")
+        print(self.obs.shape)
+        print(self.acs.shape)
+        print(self.rews.shape)
+        print(self.next_obs.shape)
+        print(self.terminals.shape)
+
         assert (
                 self.obs.shape[0]
                 == self.acs.shape[0]
@@ -81,11 +94,11 @@ class ReplayBuffer(object):
         ## HINT 3: look at the sample_recent_data function below
 
         return (
-            self.obs[sampled_indices, :],
-            self.acs[sampled_indices, :],
-            self.rews[sampled_indices, :],
-            self.next_obs[sampled_indices, :],
-            self.terminals[sampled_indices, :],
+            self.obs[sampled_indices],
+            self.acs[sampled_indices],
+            self.rews[sampled_indices],
+            self.next_obs[sampled_indices],
+            self.terminals[sampled_indices],
         )
 
     def sample_recent_data(self, batch_size=1):

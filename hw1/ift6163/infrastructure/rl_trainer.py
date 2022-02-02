@@ -121,6 +121,7 @@ class RL_Trainer(object):
                 paths = self.do_relabel_with_expert(expert_policy, paths)  # HW1: implement this function below
 
             # add collected data to replay buffer
+            print('"before replay buffer', len(paths))
             self.agent.add_to_replay_buffer(paths)
 
             # train agent (using sampled data from replay buffer)
@@ -172,9 +173,12 @@ class RL_Trainer(object):
                 data = pickle.loads(f.read())
 
                 # Build expert trajectories
-                expert_paths = utils.build_expert_trajectories(data[0])
+                paths = utils.build_expert_trajectories(data)
 
-            return expert_paths, 0, None
+                # print('shape of observation', paths[0]['observation'].shape)
+                # print('shape of observation', paths[1]['observation'].shape)
+
+            return paths, 0, None
 
         # TODO collect `batch_size` samples to be used for training
         # HINT1: use sample_trajectories from utils
@@ -190,6 +194,8 @@ class RL_Trainer(object):
             ## TODO look in utils and implement sample_n_trajectories
             train_video_paths = utils.sample_n_trajectories(self.env, collect_policy, MAX_NVIDEO, MAX_VIDEO_LEN, True)
 
+        print(paths[0]['observation'].shape)
+        print(paths[0]['action'].shape)
         return paths, envsteps_this_batch, train_video_paths
 
 
@@ -202,6 +208,9 @@ class RL_Trainer(object):
             # HINT1: use the agent's sample function
             # HINT2: how much data = self.params['train_batch_size']
             ob_batch, ac_batch, re_batch, next_ob_batch, terminal_batch = self.agent.sample(self.params['alg']['train_batch_size'])
+
+            print("\nSampled data:")
+            print(f"ob_batch: {ob_batch.shape}")
 
             # TODO use the sampled data to train an agent
             # HINT: use the agent's train function
