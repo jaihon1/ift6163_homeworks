@@ -53,6 +53,27 @@ def sample_trajectory(env, policy, max_path_length, render=False, render_mode=('
 
     return Path(obs, image_obs, acs, rewards, next_obs, terminals)
 
+def build_expert_trajectories(expert_data):
+
+    paths = []
+
+    # Going through each expert trajectory
+    for i, _ in enumerate(expert_data['observation']):
+        # Build path object
+        path = Path(
+            expert_data['observation'][i],
+            [],
+            expert_data['action'][i],
+            expert_data['reward'][i],
+            expert_data['next_observation'][i],
+            expert_data['terminal'][i]
+        )
+
+        # Append path to paths
+        paths.append(path)
+
+    return paths
+
 def sample_trajectories(env, policy, min_timesteps_per_batch, max_path_length, render=False, render_mode=('rgb_array')):
     """
         Collect rollouts until we have collected min_timesteps_per_batch steps.

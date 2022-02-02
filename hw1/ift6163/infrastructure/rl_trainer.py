@@ -1,4 +1,5 @@
 from collections import OrderedDict
+import pickle
 import numpy as np
 import time
 
@@ -166,12 +167,14 @@ class RL_Trainer(object):
                 # (2) collect `self.params['batch_size']` transitions
 
         if itr == 0:
-            # TODO: NOT DONE !!!! Not sure what to do here...
             print('\nLoading Expert Data')
             with open('../../.'+load_initial_expertdata, 'rb') as f:
-                print(f)
+                data = pickle.loads(f.read())
 
-            # return paths, 0, None
+                # Build expert trajectories
+                expert_paths = utils.build_expert_trajectories(data[0])
+
+            return expert_paths, 0, None
 
         # TODO collect `batch_size` samples to be used for training
         # HINT1: use sample_trajectories from utils
