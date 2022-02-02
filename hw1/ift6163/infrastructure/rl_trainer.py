@@ -111,6 +111,10 @@ class RL_Trainer(object):
             paths, envsteps_this_batch, train_video_paths = training_returns
             self.total_envsteps += envsteps_this_batch
 
+            print("\nCollected trajectories:")
+            print(f"Total paths: {len(paths)}")
+
+
             # relabel the collected obs with actions from a provided expert policy
             if relabel_with_expert and itr>=start_relabel_with_expert:
                 paths = self.do_relabel_with_expert(expert_policy, paths)  # HW1: implement this function below
@@ -161,11 +165,19 @@ class RL_Trainer(object):
 
                 # (2) collect `self.params['batch_size']` transitions
 
+        if itr == 0:
+            # TODO: NOT DONE !!!! Not sure what to do here...
+            print('\nLoading Expert Data')
+            with open('../../.'+load_initial_expertdata, 'rb') as f:
+                print(f)
+
+            # return paths, 0, None
+
         # TODO collect `batch_size` samples to be used for training
         # HINT1: use sample_trajectories from utils
         # HINT2: you want each of these collected rollouts to be of length self.params['ep_len']
         print("\nCollecting data to be used for training...")
-        paths, envsteps_this_batch = TODO
+        paths, envsteps_this_batch = utils.sample_trajectories(self.env, collect_policy, min_timesteps_per_batch=batch_size, max_path_length=MAX_VIDEO_LEN, render=True)
 
         # collect more rollouts with the same policy, to be saved as videos in tensorboard
         # note: here, we collect MAX_NVIDEO rollouts, each of length MAX_VIDEO_LEN
@@ -181,12 +193,12 @@ class RL_Trainer(object):
     def train_agent(self):
         print('\nTraining agent using sampled data from replay buffer...')
         all_logs = []
-        for train_step in range(self.params['num_agent_train_steps_per_iter']):
+        for train_step in range(self.params['alg']['num_agent_train_steps_per_iter']):
 
             # TODO sample some data from the data buffer
             # HINT1: use the agent's sample function
             # HINT2: how much data = self.params['train_batch_size']
-            ob_batch, ac_batch, re_batch, next_ob_batch, terminal_batch = TODO
+            ob_batch, ac_batch, re_batch, next_ob_batch, terminal_batch = self.agent.sample(self.params['alg']['train_batch_size'])
 
             # TODO use the sampled data to train an agent
             # HINT: use the agent's train function
