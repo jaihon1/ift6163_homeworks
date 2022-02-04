@@ -115,13 +115,29 @@ class MLPPolicySL(MLPPolicy):
         super().__init__(ac_dim, ob_dim, n_layers, size, **kwargs)
         self.loss = nn.MSELoss()
 
-    def update(
-            self, observations, actions,
-            adv_n=None, acs_labels_na=None, qvals=None
-    ):
+    def update(self, observations, actions, adv_n=None, acs_labels_na=None, qvals=None):
         # TODO: update the policy and return the loss
-        loss = TODO
+        # print('Data for training')
+        # print(observations.shape)
+        # print(actions.shape)
+        actions = ptu.from_numpy(actions.astype(np.float32))
+        observations = ptu.from_numpy(observations.astype(np.float32))
+
+        # zero the parameter gradients
+        self.optimizer.zero_grad()
+
+        predictions = self(observations)
+
+        loss = self.loss(predictions, actions)
+
+        # print('Loss: {}'.format(loss))
+        # print('Predictions: {}'.format(predictions[0]))
+        # print('Actions: {}'.format(actions[0]))
+
+        loss.backward()
+        self.optimizer.step()
+
         return {
             # You can add extra logging information here, but keep this line
-            'Training Loss': ptu.to_numpy(loss),
+            'Training_Loss': ptu.to_numpy(loss),
         }

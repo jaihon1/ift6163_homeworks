@@ -80,7 +80,7 @@ class ReplayBuffer(object):
                 == self.terminals.shape[0]
         )
 
-        sampled_indices = np.random.permutation(batch_size)
+        sampled_indices = np.random.permutation(batch_size) # maybe use sample or rsample?
 
         ## TODO return batch_size number of random entries from each of the 5 component arrays above
         ## HINT 1: use np.random.permutation to sample random indices
