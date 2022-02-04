@@ -1,0 +1,9 @@
+- env.expert_policy_file=./ift6163/policies/experts/Hopper.pkl
+- env.expert_data=../../../ift6163/expert_data/expert_data_Hopper-v2.pkl
+- env.env_name=Hopper-v2
+- env.max_episode_length=1000
+- alg.n_iter=1
+- alg.batch_size=5000
+- alg.eval_batch_size=5000
+- alg.data_ratio=1.0
+- alg.do_dagger=false
