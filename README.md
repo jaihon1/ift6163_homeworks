@@ -1,11 +1,11 @@
 Assignments for [UdeM IFT6163: Robot Learning Course](https://fracturedplane.com/teaching-new-course-in-robot-learning.html). Based on [Berkeley CS 285: Deep Reinforcement Learning, Decision Making, and Control](http://rail.eecs.berkeley.edu/deeprlcourse/).
 
 ## Homework 1
-Below are the commmands to run different parts of the homework 1 assignment.
+Starting with the default configuration state of config.yaml, ru the following commands to run different parts of the assignment.
 
 ### Part 1
 
-### Run first environment (BC with Ant)
+#### Run first environment (BC with Ant)
 ```
 python run_hw1.py env.expert_policy_file=./ift6163/policies/experts/Ant.pkl env.expert_data=../../../ift6163/expert_data/expert_data_Ant-v2.pkl env.env_name=Ant-v2 env.max_episode_length=1000 alg.n_iter=1 alg.batch_size=5000 alg.eval_batch_size=5000 alg.data_ratio=1.0 alg.do_dagger=false
 ```
