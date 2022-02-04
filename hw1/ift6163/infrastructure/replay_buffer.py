@@ -34,12 +34,6 @@ class ReplayBuffer(object):
         observations, actions, rewards, next_observations, terminals = (
             convert_listofrollouts(paths, concat_rew))
 
-        print("add_rollouts")
-        print(observations.shape)
-        print(actions.shape)
-        print(rewards.shape)
-        print(next_observations.shape)
-        print(terminals.shape)
 
         if self.obs is None:
             self.obs = observations[-self.max_size:]
@@ -80,7 +74,14 @@ class ReplayBuffer(object):
                 == self.terminals.shape[0]
         )
 
-        sampled_indices = np.random.permutation(batch_size) # maybe use sample or rsample?
+        # Generate an array of indexes of size of observations
+        index_array = np.arange(self.obs.shape[0])
+
+        # Shuffle the array of indexes
+        index_array = np.random.permutation(index_array)
+
+        # Pick the first batch_size indexes
+        sampled_indexes = index_array[:batch_size]
 
         ## TODO return batch_size number of random entries from each of the 5 component arrays above
         ## HINT 1: use np.random.permutation to sample random indices
@@ -88,11 +89,11 @@ class ReplayBuffer(object):
         ## HINT 3: look at the sample_recent_data function below
 
         return (
-            self.obs[sampled_indices],
-            self.acs[sampled_indices],
-            self.rews[sampled_indices],
-            self.next_obs[sampled_indices],
-            self.terminals[sampled_indices],
+            self.obs[sampled_indexes],
+            self.acs[sampled_indexes],
+            self.rews[sampled_indexes],
+            self.next_obs[sampled_indexes],
+            self.terminals[sampled_indexes],
         )
 
     def sample_recent_data(self, batch_size=1):

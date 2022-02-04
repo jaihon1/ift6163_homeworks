@@ -126,8 +126,6 @@ class RL_Trainer(object):
             # train agent (using sampled data from replay buffer)
             training_logs = self.train_agent()  # HW1: implement this function below
             print('Finished training!')
-            print(training_logs[0])
-            print(len(training_logs))
 
             # log/save
             if self.log_video or self.log_metrics:
@@ -171,7 +169,7 @@ class RL_Trainer(object):
 
         if itr == 0:
             print('\nLoading Expert Data')
-            with open('../../.'+load_initial_expertdata, 'rb') as f:
+            with open(load_initial_expertdata, 'rb') as f:
                 # Load raw expert data
                 data = pickle.loads(f.read())
 
@@ -233,8 +231,6 @@ class RL_Trainer(object):
     ####################################
 
     def perform_logging(self, itr, paths, eval_policy, train_video_paths, training_logs):
-
-        print(eval_policy)
 
         # collect eval trajectories, for logging
         print("\nCollecting data for eval...")

@@ -66,8 +66,6 @@ def build_mlp(
 
     model = nn.Sequential(*layers)
 
-    print(model)
-
     return model
 
 
