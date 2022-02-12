@@ -10,3 +10,6 @@ torch==1.5.1
 opencv-python==4.4.0.42
 ipdb==0.13.3
 box2d-py
+numpy
+hydra
+hydra-core
