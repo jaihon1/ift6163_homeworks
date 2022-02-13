@@ -52,7 +52,7 @@ class RL_Trainer(object):
 
         # Make the gym environment
         self.env = gym.make(self.params['env_name'])
-        print (self.env) 
+        print (self.env)
         if 'env_wrappers' in self.params:
             # These operations are currently only for Atari envs
             self.env = wrappers.Monitor(self.env, os.path.join(self.params['logdir'], "gym"), force=True)
@@ -189,8 +189,32 @@ class RL_Trainer(object):
             train_video_paths: paths which also contain videos for visualization purposes
         """
         # TODO: get this from previous assignment
+        # Load expert data if first iteration and expert data is provided
+        if itr == 0 and initial_expertdata is not None:
+            print('\nLoading Expert Data')
+            with open(initial_expertdata, 'rb') as f:
+                # Load raw expert data
+                data = pickle.loads(f.read())
+
+                # Build expert trajectories from raw data
+                paths = utils.build_expert_trajectories(data)
+
+            return paths, 0, None
+
+        print("\nCollecting data to be used for training...")
+        paths, envsteps_this_batch = utils.sample_trajectories(self.env, collect_policy, min_timesteps_per_batch=num_transitions_to_sample, max_path_length=self.params['ep_len'], render=True)
+
+        # collect more rollouts with the same policy, to be saved as videos in tensorboard
+        # note: here, we collect MAX_NVIDEO rollouts, each of length MAX_VIDEO_LEN
+        train_video_paths = None
+        if save_expert_data_to_disk:
+            print('\nCollecting train rollouts to be used for saving videos...')
+            ## TODO look in utils and implement sample_n_trajectories
+            train_video_paths = utils.sample_n_trajectories(self.env, collect_policy, MAX_NVIDEO, MAX_VIDEO_LEN, True)
+
 
         return paths, envsteps_this_batch, train_video_paths
+
 
     def train_agent(self):
         print('TODO')

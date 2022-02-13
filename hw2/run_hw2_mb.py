@@ -2,7 +2,6 @@ import os
 import time
 
 import sys
-print(sys.path)
 
 
 from ift6163.agents.mb_agent import MBAgent
@@ -68,7 +67,7 @@ def my_main(cfg: DictConfig):
     my_app(cfg)
 
 
-def my_app(cfg: DictConfig): 
+def my_app(cfg: DictConfig):
     print(OmegaConf.to_yaml(cfg))
     import os
     print("Command Dir:", os.getcwd())
@@ -118,3 +117,7 @@ if __name__ == "__main__":
     import os
     print("Command Dir:", os.getcwd())
     my_main()
+
+
+# Question 1: Commands
+# python run_hw2_mb.py exp_name=q1_cheetah_n500_arch1x32 env_name=cheetah-ift6163-v0 num_agent_train_steps_per_iter=500 n_layers=1 size=32
