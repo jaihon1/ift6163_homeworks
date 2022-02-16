@@ -79,7 +79,9 @@ class FFModel(nn.Module, BaseModel):
         """
         # normalize input data to mean 0, std 1
         # obs_normalized = # TODO(Q1)
+        obs_normalized = normalize(obs_unnormalized, mean=0, std=1)
         # acs_normalized = # TODO(Q1)
+        acs_normalized = normalize(acs_unnormalized, mean=0, std=1)
 
         # predicted change in obs
         concatenated_input = torch.cat([obs_normalized, acs_normalized], dim=1)
@@ -88,7 +90,14 @@ class FFModel(nn.Module, BaseModel):
         # Hint: as described in the PDF, the output of the network is the
         # *normalized change* in state, i.e. normalized(s_t+1 - s_t).
         # delta_pred_normalized = # TODO(Q1)
+        delta_pred_normalized = self.delta_network(concatenated_input)
         # next_obs_pred = # TODO(Q1)
+        # print("delta_pred_normalized", delta_pred_normalized)
+
+        next_obs_pred = obs_unnormalized + unnormalize(ptu.to_numpy(delta_pred_normalized), mean=delta_mean, std=delta_std)
+        # print("delta_pred_normalized", delta_pred_normalized)
+        # print("next_obs_pred", next_obs_pred)
+
         return next_obs_pred, delta_pred_normalized
 
     def get_prediction(self, obs, acs, data_statistics):
@@ -108,7 +117,16 @@ class FFModel(nn.Module, BaseModel):
         # prediction = # TODO(Q1) get numpy array of the predicted next-states (s_t+1)
         # Hint: `self(...)` returns a tuple, but you only need to use one of the
         # outputs.
-        return prediction
+
+        # convert inputs to tensors
+        actions = ptu.from_numpy(acs.astype(np.float32))
+        observations = ptu.from_numpy(obs.astype(np.float32))
+
+        prediction = self(observations, actions, data_statistics['obs_mean'], data_statistics['obs_std'], data_statistics['acs_mean'], data_statistics['acs_std'], data_statistics['delta_mean'], data_statistics['delta_std'])
+
+        # print("prediction", prediction)
+
+        return ptu.to_numpy(prediction[0])
 
     def update(self, observations, actions, next_observations, data_statistics):
         """
@@ -125,18 +143,31 @@ class FFModel(nn.Module, BaseModel):
              - 'delta_std'
         :return:
         """
+        # convert inputs to tensors
+        actions = ptu.from_numpy(actions.astype(np.float32))
+        observations = ptu.from_numpy(observations.astype(np.float32))
+        next_observations = ptu.from_numpy(next_observations.astype(np.float32))
+
         # target = # TODO(Q1) compute the normalized target for the model.
         # # Hint: you should use `data_statistics['delta_mean']` and
         # # `data_statistics['delta_std']`, which keep track of the mean
         # # and standard deviation of the model.
+        target = normalize(next_observations - observations, mean=data_statistics['delta_mean'], std=data_statistics['delta_std'])
 
         # loss = # TODO(Q1) compute the loss
         # Hint: `self(...)` returns a tuple, but you only need to use one of the
         # outputs.
-
         self.optimizer.zero_grad()
+
+        # forward pass
+        prediction = self(observations, actions, data_statistics['obs_mean'], data_statistics['obs_std'], data_statistics['acs_mean'], data_statistics['acs_std'], data_statistics['delta_mean'], data_statistics['delta_std'])
+
+        loss = self.loss(prediction[1], target)
+
+        # self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
+        print("loss", loss)
 
         return {
             'Training Loss': ptu.to_numpy(loss),

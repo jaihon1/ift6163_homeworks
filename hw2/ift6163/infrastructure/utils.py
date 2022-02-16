@@ -18,6 +18,9 @@ def calculate_mean_prediction_error(env, action_sequence, models, data_statistic
     for ac in action_sequence:
         pred_states.append(ob)
         action = np.expand_dims(ac,0)
+        # print("predicting")
+        # print(action)
+        # print(ob)
         ob = model.get_prediction(ob, action, data_statistics)
     pred_states = np.squeeze(pred_states)
 
@@ -55,7 +58,6 @@ def mean_squared_error(a, b):
 ############################################
 
 def sample_trajectory(env, policy, max_path_length, render=False, render_mode=('rgb_array')):
-    print('TODO')
     # TODO: get this from previous assignment
 
     # initialize env for the beginning of a new rollout

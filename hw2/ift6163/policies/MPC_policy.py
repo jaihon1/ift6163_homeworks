@@ -1,3 +1,4 @@
+from random import random
 import numpy as np
 
 from .base_policy import BasePolicy
@@ -48,12 +49,27 @@ class MPCPolicy(BasePolicy):
                 + f"num_elites={self.cem_num_elites}, iterations={self.cem_iterations}")
 
     def sample_action_sequences(self, num_sequences, horizon, obs=None):
+        # print(f"Sampling {num_sequences} action sequences of length {horizon}")
+        # print(f"Action space: {self.ac_space}")
+        # print(f"Action dimension: {self.ac_dim}")
+        # print(f"Action space low: {self.low}")
+        # print(f"Action space high: {self.high}")
+
         if self.sample_strategy == 'random' \
             or (self.sample_strategy == 'cem' and obs is None):
             # TODO(Q1) uniformly sample trajectories and return an array of
             # dimensions (num_sequences, horizon, self.ac_dim) in the range
             # [self.low, self.high]
+            # Hint: you can use np.random.uniform to sample uniformly from a range of values (Q1) or use the following code (Q2) to sample from a uniform distribution in the action space
+
+            # For every sequence (random_action_sequence[i]), sample an action sequence of length horizon
+            random_action_sequences = np.random.uniform(low=self.low, high=self.high, size=(num_sequences, horizon, self.ac_dim))
+
+            # print(f"Random action sequences: {random_action_sequences}")
+
+
             return random_action_sequences
+
         elif self.sample_strategy == 'cem':
             # TODO(Q5): Implement action selection using CEM.
             # Begin with randomly selected actions, then refine the sampling distribution

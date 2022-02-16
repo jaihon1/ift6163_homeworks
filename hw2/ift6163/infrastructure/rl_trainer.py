@@ -217,8 +217,26 @@ class RL_Trainer(object):
 
 
     def train_agent(self):
-        print('TODO')
-    # TODO: get this from previous assignment
+        # TODO: get this from previous assignment
+        print('\nTraining agent using sampled data from replay buffer...')
+        all_logs = []
+        for train_step in range(self.params['num_agent_train_steps_per_iter']):
+
+            # TODO sample some data from the data buffer
+            # HINT1: use the agent's sample function
+            # HINT2: how much data = self.params['train_batch_size']
+            ob_batch, ac_batch, re_batch, next_ob_batch, terminal_batch = self.agent.sample(self.params['train_batch_size'])
+
+            print("\nSampled data:")
+            print(f"ob_batch: {ob_batch.shape}")
+
+            # TODO use the sampled data to train an agent
+            # HINT: use the agent's train function
+            # HINT: keep the agent's training log for debugging
+            train_log = self.agent.train(ob_batch, ac_batch, re_batch, next_ob_batch, terminal_batch)
+            all_logs.append(train_log)
+
+        return all_logs
 
     ####################################
     ####################################
