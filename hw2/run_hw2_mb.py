@@ -125,3 +125,11 @@ if __name__ == "__main__":
 # python run_hw2_mb.py exp_name=q1_cheetah_n5_arch2x250 env_name=cheetah-ift6163-v0 num_agent_train_steps_per_iter=5 n_layers=2 size=250
 
 # python run_hw2_mb.py exp_name=q1_cheetah_n500_arch2x250 env_name=cheetah-ift6163-v0 num_agent_train_steps_per_iter=500 n_layers=2 size=250
+
+
+# Question 2: Commands
+# python run_hw2_mb.py exp_name=q2_obstacles_singleiteration env_name=obstacles-ift6163-v0  num_agent_train_steps_per_iter=20 batch_size_initial=5000 batch_size=1000 mpc_horizon=10 video_log_freq=-1
+
+
+# Question 3: Commands
+# python run_hw2_mb.py exp_name=q3_obstacles env_name=obstacles-ift6163-v0 num_agent_train_steps_per_iter=20 batch_size_initial=5000 batch_size=1000 mpc_horizon=10 n_iter=12 video_log_freq=-1

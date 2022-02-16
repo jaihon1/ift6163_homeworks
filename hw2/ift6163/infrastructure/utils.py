@@ -122,6 +122,8 @@ def sample_trajectories(env, policy, min_timesteps_per_batch, max_path_length, r
         # Get path length added to timesteps_this_batch
         timesteps_this_batch += get_pathlength(path)
 
+        print(f"timesteps_this_batch: {timesteps_this_batch}, min_timesteps_per_batch: {min_timesteps_per_batch}")
+
         # Append path to paths
         paths.append(path)
 

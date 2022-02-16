@@ -1,0 +1,2 @@
+[2022-02-16 17:16:19,152][matplotlib.backends._backend_tk][INFO] - Could not load matplotlib icon: can't use "pyimage10" as iconphoto: not a photo image
+[2022-02-16 18:26:08,890][root][INFO] - Summary name Training Loss is illegal; using Training_Loss instead.

@@ -2,6 +2,11 @@ import gym
 import numpy as np
 from gym import spaces
 
+########### NEED THIS FOR MY ENV TO RUN MAC DO NOT FORGET TO REMOVE BEFORE SUBMITTING!!!!
+import matplotlib
+matplotlib.use('TkAgg')
+###########
+
 class Obstacles(gym.Env):
     def __init__(self, start=[-0.5, 0.75], end=[0.7, -0.8], random_starts=True):
 

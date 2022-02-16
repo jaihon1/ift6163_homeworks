@@ -100,10 +100,19 @@ class MPCPolicy(BasePolicy):
         #
         # Then, return the mean predictions across all ensembles.
         # Hint: the return value should be an array of shape (N,)
-        for model in self.dyn_models:
-            pass
 
-        return TODO
+        # Initializing rewards for each sequence to 0
+        sum_rewards = np.zeros(candidate_action_sequences.shape[0])
+
+        for model in self.dyn_models:
+            sum_rewards += self.calculate_sum_of_rewards(obs, candidate_action_sequences, model)
+            # print(f"Sum of rewards: {sum_rewards}")
+
+        # calculate mean rewards
+        mean_rewards = sum_rewards / len(self.dyn_models)
+        # print(f"Mean rewards: {mean_rewards}")
+
+        return mean_rewards
 
     def get_action(self, obs):
         if self.data_statistics is None:
@@ -117,11 +126,19 @@ class MPCPolicy(BasePolicy):
             # CEM: only a single action sequence to consider; return the first action
             return candidate_action_sequences[0][0][None]
         else:
+            # print(f"Candidate {candidate_action_sequences.shape} action sequences")
+            # print(f"Evaluating {candidate_action_sequences} candidate action sequences")
+
             predicted_rewards = self.evaluate_candidate_sequences(candidate_action_sequences, obs)
+            # print(f"predicted_rewards: {predicted_rewards.shape}")
 
             # pick the action sequence and return the 1st element of that sequence
-            best_action_sequence = None  # TODO (Q2)
-            action_to_take = None  # TODO (Q2)
+            best_action_sequence_index = np.argmax(predicted_rewards)
+            best_action_sequence = candidate_action_sequences[best_action_sequence_index]  # TODO (Q2)
+            # print(f"Best action sequence: {best_action_sequence}")
+            action_to_take = best_action_sequence[0]  # TODO (Q2)
+            # print(f"Action to take: {action_to_take}")
+
             return action_to_take[None]  # Unsqueeze the first index
 
     def calculate_sum_of_rewards(self, obs, candidate_action_sequences, model):
@@ -149,4 +166,40 @@ class MPCPolicy(BasePolicy):
         # Hint: Remember that the model can process observations and actions
         #       in batch, which can be much faster than looping through each
         #       action sequence.
+
+        # Initializing rewards for each sequence to 0
+        sum_of_rewards = np.zeros(candidate_action_sequences.shape[0])
+
+
+        for i, candidate_action_sequence in enumerate(candidate_action_sequences):
+            # Setup reward of current sequence
+            sum_of_reward = 0
+
+            obs_next = np.expand_dims(obs, 0)
+            # print("!!!!running new sequence")
+            # batch_obs = np.zeros((candidate_action_sequence.shape[0], obs_next.shape[1]))
+            # batch_actions = np.zeros((candidate_action_sequence.shape[0], candidate_action_sequence.shape[2]))
+
+            # For each horizon actions in the sequence, calculate the sum of rewards
+            for candidate_action in candidate_action_sequence:
+                action = np.expand_dims(candidate_action, 0)
+
+                # Make prediction and update current obs with the prediction
+                obs_next = model.get_prediction(obs_next, action, self.data_statistics)
+
+                # Calculate reward for this action and generated observation
+                reward = self.env.get_reward(obs_next, action)
+                # print(f"Reward: {reward}")
+
+                # Update sum of rewards
+                sum_of_reward += reward[0][0]
+                # print(f"Sum of reward: {sum_of_reward}")
+
+            # Update sum of rewards for this sequence
+            sum_of_rewards[i] = sum_of_reward
+
+        # print(f"Sum of rewards: {sum_of_rewards.shape}")
+
+
         return sum_of_rewards
+
