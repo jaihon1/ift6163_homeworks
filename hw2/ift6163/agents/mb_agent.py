@@ -46,7 +46,7 @@ class MBAgent(BaseAgent):
         num_data = ob_no.shape[0]
         num_data_per_ens = int(num_data / self.ensemble_size)
 
-        print(f"num data: {num_data}, num data per ens: {num_data_per_ens}")
+        # print(f"num data: {num_data}, num data per ens: {num_data_per_ens}")
 
         for i in range(self.ensemble_size):
 

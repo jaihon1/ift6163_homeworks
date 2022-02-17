@@ -202,7 +202,7 @@ class RL_Trainer(object):
             return paths, 0, None
 
         print("\nCollecting data to be used for training...")
-        paths, envsteps_this_batch = utils.sample_trajectories(self.env, collect_policy, min_timesteps_per_batch=num_transitions_to_sample, max_path_length=self.params['ep_len'], render=True)
+        paths, envsteps_this_batch = utils.sample_trajectories(self.env, collect_policy, min_timesteps_per_batch=num_transitions_to_sample, max_path_length=self.params['ep_len'], render=False)
 
         # collect more rollouts with the same policy, to be saved as videos in tensorboard
         # note: here, we collect MAX_NVIDEO rollouts, each of length MAX_VIDEO_LEN
@@ -227,8 +227,8 @@ class RL_Trainer(object):
             # HINT2: how much data = self.params['train_batch_size']
             ob_batch, ac_batch, re_batch, next_ob_batch, terminal_batch = self.agent.sample(self.params['train_batch_size'])
 
-            print("\nSampled data:")
-            print(f"ob_batch: {ob_batch.shape}")
+            # print("\nSampled data:")
+            # print(f"ob_batch: {ob_batch.shape}")
 
             # TODO use the sampled data to train an agent
             # HINT: use the agent's train function

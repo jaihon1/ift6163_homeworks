@@ -8,6 +8,37 @@ q2_eval_avg_return = [-33.97]
 q2_train_avg_return = [-167.10]
 q2_itr = [1]
 
+# q3
+q3_obs = [-21.05]
+q3_obs_std = [6.39]
+q3_reach = [-689.24]
+q3_reach_std = [0.00]
+q3_chee = [42.00]
+q3_chee_std = [0.00]
+q3_itr = [1]
+
+
+# q4
+q4_reacher_horizon5 = [-702.24]
+q4_reacher_horizon15 = []
+q4_reacher_horizon30 = []
+q4_reacher_numseq100 = []
+q4_reacher_numseq1000 = []
+q4_reacher_ensemble1 = []
+q4_reacher_ensemble3 = []
+q4_reacher_ensemble5 = []
+
+q4_reacher_horizon5_std = [0.00]
+q4_reacher_horizon15_std = [0.00]
+q4_reacher_horizon30_std = [0.00]
+q4_reacher_numseq100_std = [0.00]
+q4_reacher_numseq1000_std = [0.00]
+q4_reacher_ensemble1_std = [0.00]
+q4_reacher_ensemble3_std = [0.00]
+q4_reacher_ensemble5_std = [0.00]
+
+q4_iter = [1]
+
 
 #%%
 

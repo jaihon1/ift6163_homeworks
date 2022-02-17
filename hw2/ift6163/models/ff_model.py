@@ -167,7 +167,7 @@ class FFModel(nn.Module, BaseModel):
         # self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
-        print("loss", loss)
+        # print("loss", loss)
 
         return {
             'Training Loss': ptu.to_numpy(loss),
