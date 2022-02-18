@@ -68,12 +68,12 @@ class MBAgent(BaseAgent):
             model = self.dyn_models[i]
             log = model.update(observations, actions, next_observations,
                                 self.data_statistics)
-            loss = log['Training Loss']
+            loss = log['Training_Loss']
             losses.append(loss)
 
         avg_loss = np.mean(losses)
         return {
-            'Training Loss': avg_loss,
+            'Training_Loss': avg_loss,
         }
 
     def add_to_replay_buffer(self, paths, add_sl_noise=False):

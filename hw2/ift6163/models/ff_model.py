@@ -170,5 +170,5 @@ class FFModel(nn.Module, BaseModel):
         # print("loss", loss)
 
         return {
-            'Training Loss': ptu.to_numpy(loss),
+            'Training_Loss': ptu.to_numpy(loss),
         }

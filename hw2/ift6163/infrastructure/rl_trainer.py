@@ -330,7 +330,7 @@ class RL_Trainer(object):
         self.fig.savefig(self.params['logdir']+'/itr_'+str(itr)+'_predictions.png', dpi=200, bbox_inches='tight')
 
         # plot all intermediate losses during this iteration
-        all_losses = np.array([log['Training Loss'] for log in all_logs])
+        all_losses = np.array([log['Training_Loss'] for log in all_logs])
         np.save(self.params['logdir']+'/itr_'+str(itr)+'_losses.npy', all_losses)
         self.fig.clf()
         plt.plot(all_losses)

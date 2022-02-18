@@ -84,6 +84,7 @@ def sample_trajectory(env, policy, max_path_length, render=False, render_mode=('
         ac =  policy.get_action(ob) # TODO: HINT: query the policy's get_action function
         ac = ac[0]
         acs.append(ac)
+        # print("ac: ", ac)
 
         # take that action and record results
         ob, rew, done, _ = env.step(ac)

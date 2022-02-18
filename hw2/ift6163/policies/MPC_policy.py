@@ -200,35 +200,68 @@ class MPCPolicy(BasePolicy):
         # Initializing rewards for each sequence to 0
         sum_of_rewards = np.zeros(candidate_action_sequences.shape[0])
 
+        # run the model on candidate action sequences in batch mode
+        # print(f"Running model on {candidate_action_sequences.shape} candidate action sequences")
+        # print(candidate_action_sequences[0])
+        # print(candidate_action_sequences[0, 0, :])
+        # print(candidate_action_sequences[:, 0, :].shape)
 
-        for i, candidate_action_sequence in enumerate(candidate_action_sequences):
-            # Setup reward of current sequence
-            sum_of_reward = 0
+        # print(f"Predicted obs: {predicted_obs.shape}")
 
-            obs_next = np.expand_dims(obs, 0)
-            # print("!!!!running new sequence")
-            # batch_obs = np.zeros((candidate_action_sequence.shape[0], obs_next.shape[1]))
-            # batch_actions = np.zeros((candidate_action_sequence.shape[0], candidate_action_sequence.shape[2]))
+        obs_next = np.repeat(obs[None, :], candidate_action_sequences.shape[0], axis=0)
+        # print("obs_batch: ", obs_next.shape)
+        # print(obs_next)
 
-            # For each horizon actions in the sequence, calculate the sum of rewards
-            for candidate_action in candidate_action_sequence:
-                action = np.expand_dims(candidate_action, 0)
+        # obs_next = np.expand_dims(obs_batch, 0)
 
-                # Make prediction and update current obs with the prediction
-                obs_next = model.get_prediction(obs_next, action, self.data_statistics)
+        # print(f"obs_next: {obs_next.shape}")
 
-                # Calculate reward for this action and generated observation
-                reward = self.env.get_reward(obs_next, action)
-                # print(f"Reward: {reward}")
+        # calculate the sum of rewards for each sequence
+        for i in range(self.horizon):
 
-                # Update sum of rewards
-                sum_of_reward += reward[0][0]
-                # print(f"Sum of reward: {sum_of_reward}")
+            obs_next = model.get_prediction(obs_next, candidate_action_sequences[:, i, :], self.data_statistics)
+            # print(f"predicted {obs_next.shape}")
+            # print(f"action {candidate_action_sequences[:, i, :].shape}")
 
-            # Update sum of rewards for this sequence
-            sum_of_rewards[i] = sum_of_reward
+            rewards = self.env.get_reward(obs_next, candidate_action_sequences[:, i, :])
+
+            # print(f"rewards: {rewards[0]}")
+
+            # calculate the sum of rewards for each sequence
+            sum_of_rewards += rewards[0]
+
 
         # print(f"Sum of rewards: {sum_of_rewards.shape}")
+
+
+        # for i, candidate_action_sequence in enumerate(candidate_action_sequences):
+        #     # Setup reward of current sequence
+        #     sum_of_reward = 0
+
+        #     obs_next = np.expand_dims(obs, 0)
+        #     # print("!!!!running new sequence")
+        #     # batch_obs = np.zeros((candidate_action_sequence.shape[0], obs_next.shape[1]))
+        #     # batch_actions = np.zeros((candidate_action_sequence.shape[0], candidate_action_sequence.shape[2]))
+
+        #     # For each horizon actions in the sequence, calculate the sum of rewards
+        #     for candidate_action in candidate_action_sequence:
+        #         action = np.expand_dims(candidate_action, 0)
+
+        #         # Make prediction and update current obs with the prediction
+        #         obs_next = model.get_prediction(obs_next, action, self.data_statistics)
+
+        #         # Calculate reward for this action and generated observation
+        #         reward = self.env.get_reward(obs_next, action)
+        #         # print(f"Reward: {reward}")
+
+        #         # Update sum of rewards
+        #         sum_of_reward += reward[0][0]
+        #         # print(f"Sum of reward: {sum_of_reward}")
+
+        #     # Update sum of rewards for this sequence
+        #     sum_of_rewards[i] = sum_of_reward
+
+        # # print(f"Sum of rewards: {sum_of_rewards.shape}")
 
 
         return sum_of_rewards
