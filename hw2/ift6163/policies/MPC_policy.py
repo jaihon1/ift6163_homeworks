@@ -65,7 +65,7 @@ class MPCPolicy(BasePolicy):
             # For every sequence (random_action_sequence[i]), sample an action sequence of length horizon
             random_action_sequences = np.random.uniform(low=self.low, high=self.high, size=(num_sequences, horizon, self.ac_dim))
 
-            # print(f"Random action sequences: {random_action_sequences}")
+            # print(f"Random action sequences: {random_action_sequences.shape}")
 
 
             return random_action_sequences
@@ -75,6 +75,10 @@ class MPCPolicy(BasePolicy):
             # Begin with randomly selected actions, then refine the sampling distribution
             # iteratively as described in Section 3.3, "Iterative Random-Shooting with Refinement" of
             # https://arxiv.org/pdf/1909.11652.pdf
+            elite_mean = 0.0
+            elite_variance = 1.0
+            elite_action_sequences = np.zeros((self.cem_num_elites, self.horizon, self.ac_dim))
+
             for i in range(self.cem_iterations):
                 # - Sample candidate sequences from a Gaussian with the current
                 #   elite mean and variance
@@ -84,11 +88,37 @@ class MPCPolicy(BasePolicy):
                 #     (Hint: what existing function can we use to compute rewards for
                 #      our candidate sequences in order to rank them?)
                 # - Update the elite mean and variance
-                pass
+
+                action_sequences = np.random.normal(loc=elite_mean, scale=elite_variance, size=(num_sequences, horizon, self.ac_dim))
+
+                # print(f"Action sequences: {action_sequences.shape}")
+
+                # Calculate rewards for each candidate sequence
+                rewards = self.evaluate_candidate_sequences(action_sequences, obs)
+
+                # print(f"Rewards: {rewards}")
+
+                # Sort the candidate sequences by rewards
+                sorted_indices = np.argsort(rewards)[::-1]
+
+                # print(f"Sorted indices: {sorted_indices}")
+
+                # Get the top `self.cem_num_elites` elite sequences
+                elite_action_sequences = action_sequences[sorted_indices[:self.cem_num_elites]]
+
+                # print(f"Elite action sequences: {elite_action_sequences.shape}")
+
+                # Update the elite mean and variance
+                elite_mean = np.mean(elite_action_sequences, axis=0)
+                elite_variance = np.var(elite_action_sequences, axis=0)
+
+                # print(f"cem iteration {i}")
+                # print(f"Elite mean: {elite_mean}")
+                # print(f"Elite variance: {elite_variance}")
 
             # TODO(Q5): Set `cem_action` to the appropriate action sequence chosen by CEM.
             # The shape should be (horizon, self.ac_dim)
-            cem_action = None
+            cem_action = elite_action_sequences[0]
 
             return cem_action[None]
         else:
