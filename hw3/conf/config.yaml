@@ -21,6 +21,7 @@ video_log_freq: -1
 scalar_log_freq: -1
 save_params: True
 rl_alg: 'todo'
+dsa: False
 
 computation_graph_args:
    learning_rate: 0.001
@@ -29,14 +30,14 @@ computation_graph_args:
    ensemble_size: 3
    num_grad_steps_per_target_update: 1
    num_target_updates: 1
-   
+
 estimate_advantage_args:
    discount: 0.95
    gae_lambda: 0.9
    standardize_advantages: False
    reward_to_go: True
    nn_baseline: False
-   
+
 train_args:
    num_agent_train_steps_per_iter: 1
    num_critic_updates_per_agent_update: 1
@@ -44,36 +45,3 @@ train_args:
    discrete: False
    ob_dim:  0
    ac_dim: 0
-
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-

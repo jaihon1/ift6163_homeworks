@@ -20,7 +20,7 @@ class pg_Trainer(object):
         ## SET AGENT PARAMS
         #####################
 
-        
+
 
         agent_params = {**params['computation_graph_args'],
                          **params['estimate_advantage_args'] ,
@@ -62,7 +62,7 @@ def my_main(cfg: DictConfig):
     my_app(cfg)
 
 
-def my_app(cfg: DictConfig): 
+def my_app(cfg: DictConfig):
     print(OmegaConf.to_yaml(cfg))
     import os
     print("Command Dir:", os.getcwd())
