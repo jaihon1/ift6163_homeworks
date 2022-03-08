@@ -99,15 +99,15 @@ class MLPPolicy(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
         print("action type: ", type(action))
         print("action: ", action)
         print("action.sample(): ", action.sample())
-        print("action.logits: ", action.logits)
-        print("action_probs: ", action.probs)
-        print("self.discrete: ", self.discrete)
+        # print("action.logits: ", action.logits)
+        # print("action_probs: ", action.probs)
+        print("action_mean:" , action.mean)
         # print("manual", torch.nn.functional.softmax(action.logits, dim=1))
 
         if self.discrete:
             action = action.probs
         else:
-            action = action.logits
+            action = action.mean
 
         return ptu.to_numpy(action)
 
