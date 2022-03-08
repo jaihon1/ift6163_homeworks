@@ -96,6 +96,19 @@ class MLPPolicy(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
         observation = ptu.from_numpy(observation.astype(np.float32))
         action = self(observation)
 
+        print("action type: ", type(action))
+        print("action: ", action)
+        print("action.sample(): ", action.sample())
+        print("action.logits: ", action.logits)
+        print("action_probs: ", action.probs)
+        print("self.discrete: ", self.discrete)
+        # print("manual", torch.nn.functional.softmax(action.logits, dim=1))
+
+        if self.discrete:
+            action = action.probs
+        else:
+            action = action.logits
+
         return ptu.to_numpy(action)
 
     # update/train this policy
@@ -108,6 +121,7 @@ class MLPPolicy(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
     # return more flexible objects, such as a
     # `torch.distributions.Distribution` object. It's up to you!
     def forward(self, observation: torch.FloatTensor):
+        # Initial code
         if self.discrete:
             logits = self.logits_na(observation)
             action_distribution = distributions.Categorical(logits=logits)
@@ -122,6 +136,15 @@ class MLPPolicy(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
                 scale_tril=batch_scale_tril,
             )
             return action_distribution
+
+        # x = observation
+
+        # if self.discrete:
+        #     x = self.logits_na(x)
+        # else:
+        #     x = self.mean_net(x)
+
+        # return x
 
 #####################################################
 #####################################################

@@ -52,7 +52,7 @@ class RL_Trainer(object):
 
         # Make the gym environment
         self.env = gym.make(self.params['env_name'])
-        print (self.env) 
+        print (self.env)
         if 'env_wrappers' in self.params:
             # These operations are currently only for Atari envs
             self.env = wrappers.Monitor(self.env, os.path.join(self.params['logdir'], "gym"), force=True)
@@ -219,7 +219,7 @@ class RL_Trainer(object):
         # TODO: get this from previous assignment
         print('\nTraining agent using sampled data from replay buffer...')
         all_logs = []
-        for train_step in range(self.params['num_agent_train_steps_per_iter']):
+        for train_step in range(self.params['train_args']['num_agent_train_steps_per_iter']):
 
             # TODO sample some data from the data buffer
             # HINT1: use the agent's sample function
