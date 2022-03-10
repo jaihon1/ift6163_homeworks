@@ -17,6 +17,7 @@ class PGAgent(BaseAgent):
         self.nn_baseline = self.agent_params['nn_baseline']
         self.reward_to_go = self.agent_params['reward_to_go']
         self.gae_lambda = self.agent_params['gae_lambda']
+        self.gae = self.agent_params['gae']
 
         # actor/policy
         self.actor = MLPPolicyPG(
@@ -50,15 +51,16 @@ class PGAgent(BaseAgent):
 
         # Compute the q-values from rewards
         q_values = self.calculate_q_vals(rewards_list)
+        q_values = np.array(q_values)
 
         # Compute the advantages
         advantages = self.estimate_advantage(next_observations, rewards_list, q_values, terminals)
 
-        # Transform advantages into a numpy array
+        # Transform advantages and q_values into a numpy array
         advantages = np.array(advantages)
 
         # Update the actor
-        train_log = self.actor.update(observations, actions, advantages)
+        train_log = self.actor.update(observations, actions, advantages, q_values=q_values)
 
         return train_log
 
@@ -115,6 +117,10 @@ class PGAgent(BaseAgent):
             Computes advantages by (possibly) using GAE, or subtracting a baseline from the estimated Q values
         """
 
+        print("In estimate_advantage")
+        print("obs: ", obs.shape)
+        print("q_values: ", q_values.ndim)
+
         # Estimate the advantage when nn_baseline is True,
         # by querying the neural network that you're using to learn the value function
         if self.nn_baseline:
@@ -125,9 +131,20 @@ class PGAgent(BaseAgent):
             ## TODO: values were trained with standardized q_values, so ensure
                 ## that the predictions have the same mean and standard deviation as
                 ## the current batch of q_values
-            values = TODO
 
-            if self.gae_lambda is not None:
+            # Normalize the q_values
+            q_values_mean = np.mean(q_values)
+            q_values_std = np.std(q_values)
+            q_values = (q_values - q_values_mean) / q_values_std
+
+            # Normalize the value predictions
+            values_mean = np.mean(values_unnormalized)
+            values_std = np.std(values_unnormalized)
+            values = (values_unnormalized - values_mean) / values_std
+
+
+            # Note: added new config parameter to control whether to use GAE or not callled gae
+            if self.gae is True:
                 ## append a dummy T+1 value for simpler recursive calculation
                 values = np.append(values, [0])
 
@@ -154,7 +171,7 @@ class PGAgent(BaseAgent):
 
             else:
                 ## TODO: compute advantage estimates using q_values, and values as baselines
-                advantages = TODO
+                advantages = q_values - values
 
         # Else, just set the advantage to [Q]
         else:

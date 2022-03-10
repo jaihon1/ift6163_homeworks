@@ -33,6 +33,7 @@ computation_graph_args:
 estimate_advantage_args:
    discount: 0.95
    gae_lambda: 0.9
+   gae: False
    standardize_advantages: True
    reward_to_go: False
    nn_baseline: False
