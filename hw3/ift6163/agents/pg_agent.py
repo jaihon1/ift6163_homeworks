@@ -99,7 +99,13 @@ class PGAgent(BaseAgent):
         # Case 2: reward-to-go PG
         # Estimate Q^{pi}(s_t, a_t) by the discounted sum of rewards starting from t
         else:
-            TODO
+            # Compute the q_values for each trajectory
+            q_values = []
+            for trajectory_rewards in rewards_list:
+                discounted = self._discounted_cumsum(trajectory_rewards)
+                discounted_sum = np.sum(discounted)
+
+                q_values += [discounted_sum]*len(trajectory_rewards)
 
         return q_values
 
@@ -158,7 +164,10 @@ class PGAgent(BaseAgent):
         if self.standardize_advantages:
             ## TODO: standardize the advantages to have a mean of zero
             ## and a standard deviation of one
-            advantages = TODO
+
+            mean = np.mean(advantages)
+            std = np.std(advantages)
+            advantages = (advantages - mean) / std
 
         return advantages
 
@@ -190,8 +199,8 @@ class PGAgent(BaseAgent):
         for reward in rewards:
             discounted = 0
 
-            for t, _ in enumerate(rewards):
-                discounted += self.gamma**t * reward
+            for t_prime, _ in enumerate(rewards):
+                discounted += self.gamma**t_prime * rewards[t_prime]
 
             list_of_discounted_returns.append(discounted)
 
@@ -207,5 +216,15 @@ class PGAgent(BaseAgent):
         # TODO: create `list_of_discounted_returns`
         # HINT: it is possible to write a vectorized solution, but a solution
             # using a for loop is also fine
+
+        list_of_discounted_cumsums = []
+
+        for t, reward in enumerate(rewards):
+            discounted = 0
+
+            for t_prime, _ in enumerate(rewards):
+                discounted += self.gamma**(t_prime-t) * rewards[t_prime]
+
+            list_of_discounted_cumsums.append(discounted)
 
         return list_of_discounted_cumsums

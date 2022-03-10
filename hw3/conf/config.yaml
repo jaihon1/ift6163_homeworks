@@ -21,7 +21,6 @@ video_log_freq: -1
 scalar_log_freq: 1
 save_params: False
 rl_alg: 'todo'
-dsa: False
 
 computation_graph_args:
    learning_rate: 0.001
@@ -34,7 +33,7 @@ computation_graph_args:
 estimate_advantage_args:
    discount: 0.95
    gae_lambda: 0.9
-   standardize_advantages: False
+   standardize_advantages: True
    reward_to_go: False
    nn_baseline: False
 

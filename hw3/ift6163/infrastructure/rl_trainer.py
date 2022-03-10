@@ -339,3 +339,10 @@ class RL_Trainer(object):
         plt.plot(all_losses)
         self.fig.savefig(self.params['logdir']+'/itr_'+str(itr)+'_losses.png', dpi=200, bbox_inches='tight')
 
+# 5.
+# python run_hw3.py env_name=CartPole-v0 n_iter=100 batch_size=1000 estimate_advantage_args.standardize_advantages=false exp_name=q1_sb_no_rtg_dsa rl_alg=reinforce
+# python run_hw3.py env_name=CartPole-v0 n_iter=100 batch_size=1000 estimate_advantage_args.reward_to_go=true estimate_advantage_args.standardize_advantages=false exp_name=q1_sb_rtg_dsa rl_alg=reinforce
+# python run_hw3.py env_name=CartPole-v0 n_iter=100 batch_size=1000 estimate_advantage_args.reward_to_go=true exp_name=q1_sb_rtg_na rl_alg=reinforce
+# python run_hw3.py env_name=CartPole-v0 n_iter=100 batch_size=5000 estimate_advantage_args.standardize_advantages=false exp_name=q1_lb_no_rtg_dsa rl_alg=reinforce
+# python run_hw3.py env_name=CartPole-v0 n_iter=100 batch_size=5000 estimate_advantage_args.reward_to_go=true estimate_advantage_args.standardize_advantages=false exp_name=q1_lb_rtg_dsa rl_alg=reinforce
+# python run_hw3.py env_name=CartPole-v0 n_iter=100 batch_size=5000 estimate_advantage_args.reward_to_go=true exp_name=q1_lb_rtg_na rl_alg=reinforce
