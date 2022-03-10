@@ -107,7 +107,7 @@ class MLPPolicy(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
         if self.discrete:
             action = action.sample()
         else:
-            action = action.mean
+            action = action.sample()
 
         return ptu.to_numpy(action)
 
@@ -145,6 +145,10 @@ class MLPPolicyPG(MLPPolicy):
 
         super().__init__(ac_dim, ob_dim, n_layers, size, **kwargs)
         self.baseline_loss = nn.MSELoss()
+
+        print("learning rate: ", self.learning_rate)
+        print("n_layers: ", self.n_layers)
+        print("size: ", self.size)
 
     def update(self, observations, actions, advantages, q_values=None):
         observations = ptu.from_numpy(observations)

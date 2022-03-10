@@ -339,10 +339,20 @@ class RL_Trainer(object):
         plt.plot(all_losses)
         self.fig.savefig(self.params['logdir']+'/itr_'+str(itr)+'_losses.png', dpi=200, bbox_inches='tight')
 
-# 5.
+# 5. Experiment 1:
 # python run_hw3.py env_name=CartPole-v0 n_iter=100 batch_size=1000 estimate_advantage_args.standardize_advantages=false exp_name=q1_sb_no_rtg_dsa rl_alg=reinforce
 # python run_hw3.py env_name=CartPole-v0 n_iter=100 batch_size=1000 estimate_advantage_args.reward_to_go=true estimate_advantage_args.standardize_advantages=false exp_name=q1_sb_rtg_dsa rl_alg=reinforce
 # python run_hw3.py env_name=CartPole-v0 n_iter=100 batch_size=1000 estimate_advantage_args.reward_to_go=true exp_name=q1_sb_rtg_na rl_alg=reinforce
 # python run_hw3.py env_name=CartPole-v0 n_iter=100 batch_size=5000 estimate_advantage_args.standardize_advantages=false exp_name=q1_lb_no_rtg_dsa rl_alg=reinforce
 # python run_hw3.py env_name=CartPole-v0 n_iter=100 batch_size=5000 estimate_advantage_args.reward_to_go=true estimate_advantage_args.standardize_advantages=false exp_name=q1_lb_rtg_dsa rl_alg=reinforce
 # python run_hw3.py env_name=CartPole-v0 n_iter=100 batch_size=5000 estimate_advantage_args.reward_to_go=true exp_name=q1_lb_rtg_na rl_alg=reinforce
+
+# 5. Experiment 2:
+#  python run_hw3.py env_name=InvertedPendulum-v2 ep_len=1000 estimate_advantage_args.discount=0.9 n_iter=100 computation_graph_args.n_layers=2 computation_graph_args.size=64 batch_size=1000 computation_graph_args.learning_rate=0.001 estimate_advantage_args.reward_to_go=true exp_name=q2_b1000_r0.001 rl_alg=reinforce
+# python run_hw3.py env_name=InvertedPendulum-v2 ep_len=1000 estimate_advantage_args.discount=0.9 n_iter=100 computation_graph_args.n_layers=2 computation_graph_args.size=64 batch_size=1000 computation_graph_args.learning_rate=0.01 estimate_advantage_args.reward_to_go=true exp_name=q2_b1000_r0.01 rl_alg=reinforce
+# python run_hw3.py env_name=InvertedPendulum-v2 ep_len=1000 estimate_advantage_args.discount=0.9 n_iter=100 computation_graph_args.n_layers=2 computation_graph_args.size=64 batch_size=1000 computation_graph_args.learning_rate=0.0005 estimate_advantage_args.reward_to_go=true exp_name=q2_b1000_r0.0005 rl_alg=reinforce
+# python run_hw3.py env_name=InvertedPendulum-v2 ep_len=1000 estimate_advantage_args.discount=0.9 n_iter=100 computation_graph_args.n_layers=2 computation_graph_args.size=64 batch_size=1000 computation_graph_args.learning_rate=0.0001 estimate_advantage_args.reward_to_go=true exp_name=q2_b1000_r0.0001 rl_alg=reinforce
+
+# python run_hw3.py env_name=InvertedPendulum-v2 ep_len=1000 estimate_advantage_args.discount=0.9 n_iter=100 computation_graph_args.n_layers=2 computation_graph_args.size=64 batch_size=2000 computation_graph_args.learning_rate=0.01 estimate_advantage_args.reward_to_go=true exp_name=q2_b2000_r0.01 rl_alg=reinforce
+
+# batch_size=2000 and learning_rate=0.01 !!!
