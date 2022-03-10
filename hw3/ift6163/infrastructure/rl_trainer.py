@@ -226,8 +226,12 @@ class RL_Trainer(object):
             # HINT2: how much data = self.params['train_batch_size']
             ob_batch, ac_batch, re_batch, next_ob_batch, terminal_batch = self.agent.sample(self.params['train_batch_size'])
 
-            # print("\nSampled data:")
-            # print(f"ob_batch: {ob_batch.shape}")
+            print("\nSampled data:")
+            # print(f"ob_batch: {len(ob_batch)}")
+            # print(f"ac_batch: {len(ac_batch)}")
+            # print(f"re_batch: {len(re_batch)}")
+            # print(f"next_ob_batch: {len(next_ob_batch)}")
+            # print(f"terminal_batch: {len(terminal_batch)}")
 
             # TODO use the sampled data to train an agent
             # HINT: use the agent's train function

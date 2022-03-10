@@ -18,8 +18,8 @@ seed: 1
 no_gpu: False
 which_gpu: 0
 video_log_freq: -1
-scalar_log_freq: -1
-save_params: True
+scalar_log_freq: 1
+save_params: False
 rl_alg: 'todo'
 dsa: False
 
@@ -35,7 +35,7 @@ estimate_advantage_args:
    discount: 0.95
    gae_lambda: 0.9
    standardize_advantages: False
-   reward_to_go: True
+   reward_to_go: False
    nn_baseline: False
 
 train_args:

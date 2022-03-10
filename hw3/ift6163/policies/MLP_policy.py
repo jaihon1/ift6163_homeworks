@@ -96,16 +96,16 @@ class MLPPolicy(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
         observation = ptu.from_numpy(observation.astype(np.float32))
         action = self(observation)
 
-        print("action type: ", type(action))
-        print("action: ", action)
-        print("action.sample(): ", action.sample())
+        # print("action type: ", type(action))
+        # print("action: ", action)
+        # print("action.sample(): ", action.sample())
         # print("action.logits: ", action.logits)
         # print("action_probs: ", action.probs)
-        print("action_mean:" , action.mean)
+        # print("action_mean:" , action.mean)
         # print("manual", torch.nn.functional.softmax(action.logits, dim=1))
 
         if self.discrete:
-            action = action.probs
+            action = action.sample()
         else:
             action = action.mean
 
@@ -137,15 +137,6 @@ class MLPPolicy(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
             )
             return action_distribution
 
-        # x = observation
-
-        # if self.discrete:
-        #     x = self.logits_na(x)
-        # else:
-        #     x = self.mean_net(x)
-
-        # return x
-
 #####################################################
 #####################################################
 
@@ -170,7 +161,36 @@ class MLPPolicyPG(MLPPolicy):
         # HINT4: use self.optimizer to optimize the loss. Remember to
             # 'zero_grad' first
 
-        TODO
+        print("observations: ", observations.shape)
+        print("actions: ", actions.shape)
+        print("advantages: ", advantages.shape)
+
+        self.optimizer.zero_grad()
+
+        dist = self.forward(observations)
+        log_prob = dist.log_prob(actions)
+        loss = -log_prob * advantages
+        loss = loss.mean()
+        loss.backward()
+
+        self.optimizer.step()
+
+
+        # predictions = self(observations)
+
+        # print("predictions: ", predictions)
+        # print("predictions batch_shape: ", predictions.batch_shape)
+        # print("actions: ", actions)
+        # print("actions: ", actions.shape)
+        # print("actions unsqueeze: ", actions.squeeze(1).shape)
+
+        # log_probs = predictions.log_prob(actions) * advantages
+
+        # loss = -log_probs.mean()
+
+        # loss.backward()
+
+        # self.optimizer.step()
 
         if self.nn_baseline:
             ## TODO: update the neural network baseline using the q_values as

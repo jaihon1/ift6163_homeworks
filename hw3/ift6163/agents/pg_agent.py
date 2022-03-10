@@ -46,6 +46,20 @@ class PGAgent(BaseAgent):
         # HINT2: look at the MLPPolicyPG class for how to update the policy
             # and obtain a train_log
 
+        train_log = {}
+
+        # Compute the q-values from rewards
+        q_values = self.calculate_q_vals(rewards_list)
+
+        # Compute the advantages
+        advantages = self.estimate_advantage(next_observations, rewards_list, q_values, terminals)
+
+        # Transform advantages into a numpy array
+        advantages = np.array(advantages)
+
+        # Update the actor
+        train_log = self.actor.update(observations, actions, advantages)
+
         return train_log
 
     def calculate_q_vals(self, rewards_list):
@@ -70,7 +84,17 @@ class PGAgent(BaseAgent):
         # ordering as observations, actions, etc.
 
         if not self.reward_to_go:
-            TODO
+            # Compute the q_values for each trajectory
+            q_values = []
+            for trajectory_rewards in rewards_list:
+                discounted = self._discounted_return(trajectory_rewards)
+                discounted_sum = np.sum(discounted)
+
+                q_values += [discounted_sum]*len(trajectory_rewards)
+
+                # My custom test
+                # q_values += discounted
+
 
         # Case 2: reward-to-go PG
         # Estimate Q^{pi}(s_t, a_t) by the discounted sum of rewards starting from t
@@ -161,6 +185,15 @@ class PGAgent(BaseAgent):
         """
 
         # TODO: create list_of_discounted_returns
+        list_of_discounted_returns = []
+
+        for reward in rewards:
+            discounted = 0
+
+            for t, _ in enumerate(rewards):
+                discounted += self.gamma**t * reward
+
+            list_of_discounted_returns.append(discounted)
 
         return list_of_discounted_returns
 
