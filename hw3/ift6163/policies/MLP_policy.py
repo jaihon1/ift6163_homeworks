@@ -99,6 +99,7 @@ class MLPPolicy(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
         # print("action type: ", type(action))
         # print("action: ", action)
         # print("action.sample(): ", action.sample())
+        # action.sample()
         # print("action.logits: ", action.logits)
         # print("action_probs: ", action.probs)
         # print("action_mean:" , action.mean)
@@ -195,7 +196,7 @@ class MLPPolicyPG(MLPPolicy):
             self.baseline_optimizer.step()
 
         train_log = {
-            'Training Loss': ptu.to_numpy(loss),
+            'Training_Loss': ptu.to_numpy(loss),
         }
         return train_log
 

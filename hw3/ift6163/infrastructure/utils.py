@@ -78,12 +78,14 @@ def sample_trajectory(env, policy, max_path_length, render=False, render_mode=('
 
         # use the most recent ob to decide what to do
         obs.append(ob)
+        # print(f"ob: {ob}")
         ac =  policy.get_action(ob) # TODO: HINT: query the policy's get_action function
         ac = ac[0]
         # print(f"ac: {ac}")
         acs.append(ac)
 
         # take that action and record results
+        # print(f"ac: {ac}")
         ob, rew, done, _ = env.step(ac)
 
         # record result of taking that action

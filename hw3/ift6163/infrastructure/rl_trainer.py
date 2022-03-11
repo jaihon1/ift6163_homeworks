@@ -162,8 +162,8 @@ class RL_Trainer(object):
             all_logs = self.train_agent()
 
             # if there is a model, log model predictions
-            if isinstance(self.agent, MBAgent) and itr == 0:
-                self.log_model_predictions(itr, all_logs)
+            # if isinstance(self.agent, MBAgent) and itr == 0:
+            #     self.log_model_predictions(itr, all_logs)
 
             # log/save
             if self.logvideo or self.logmetrics:
@@ -408,3 +408,8 @@ class RL_Trainer(object):
 # python run_hw3.py env_name=InvertedPendulum-v2 rl_alg=ac ep_len=1000 estimate_advantage_args.discount=0.95 n_iter=100 computation_graph_args.n_layers=2 computation_graph_args.size=64 batch_size=5000 computation_graph_args.learning_rate=0.01 exp_name=q7_1_100 computation_graph_args.num_target_updates=1 computation_graph_args.num_grad_steps_per_target_update=100
 
 # python run_hw3.py env_name=HalfCheetah-v2 rl_alg=ac ep_len=150 estimate_advantage_args.discount=0.90 n_iter=150 computation_graph_args.n_layers=2 computation_graph_args.size=32 batch_size=30000 eval_batch_size=1500 computation_graph_args.learning_rate=0.02 exp_name=q7_1_100 computation_graph_args.num_target_updates=1 computation_graph_args.num_grad_steps_per_target_update=100
+
+# Experiment 8:
+# python run_hw3.py exp_name=q8_cheetah_n500_arch1x32 env_name=cheetah-ift6163-v0 estimate_advantage_args.discount=0.95 computation_graph_args.n_layers=2 computation_graph_args.size=32 computation_graph_args.learning_rate=0.01 scalar_log_freq=1 n_iter=100 batch_size=5000 train_batch_size=1024 rl_alg=dyna
+
+# python run_hw3.py exp_name=q8_cheetah_n500_arch1x32 env_name=cheetah-ift6163-v0 estimate_advantage_args.discount=0.95 computation_graph_args.n_layers=2 computation_graph_args.size=32 computation_graph_args.learning_rate=0.01 scalar_log_freq=1 n_iter=100 batch_size=2000 train_batch_size=1024 rl_alg=dyna

@@ -189,9 +189,10 @@ class PGAgent(BaseAgent):
             ## TODO: standardize the advantages to have a mean of zero
             ## and a standard deviation of one
 
-            mean = np.mean(advantages)
-            std = np.std(advantages)
-            advantages = (advantages - mean) / std
+            # mean = np.mean(advantages)
+            # std = np.std(advantages)
+            # advantages = (advantages - mean) / std
+            advantages = (advantages - np.mean(advantages)) / (np.std(advantages) + 1e-8)
 
         return advantages
 
