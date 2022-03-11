@@ -396,3 +396,15 @@ class RL_Trainer(object):
 
 
 # Experiment 6:
+# python run_hw3.py env_name=CartPole-v0 n_iter=100 batch_size=1000 exp_name=q6_ac_1_1 computation_graph_args.num_target_updates=1 computation_graph_args.num_grad_steps_per_target_update=1 rl_alg=ac
+
+# python run_hw3.py env_name=CartPole-v0 n_iter=100 rl_alg=ac batch_size=1000 exp_name=q6_100_1 computation_graph_args.num_target_updates=100 computation_graph_args.num_grad_steps_per_target_update=1
+
+# python run_hw3.py env_name=CartPole-v0 n_iter=100 rl_alg=ac batch_size=1000 exp_name=q6_1_100 computation_graph_args.num_target_updates=1 computation_graph_args.num_grad_steps_per_target_update=100
+
+# python run_hw3.py env_name=CartPole-v0 n_iter=100 rl_alg=ac batch_size=1000 exp_name=q6_10_10 computation_graph_args.num_target_updates=10 computation_graph_args.num_grad_steps_per_target_update=10
+
+# Experiment 7:
+# python run_hw3.py env_name=InvertedPendulum-v2 rl_alg=ac ep_len=1000 estimate_advantage_args.discount=0.95 n_iter=100 computation_graph_args.n_layers=2 computation_graph_args.size=64 batch_size=5000 computation_graph_args.learning_rate=0.01 exp_name=q7_1_100 computation_graph_args.num_target_updates=1 computation_graph_args.num_grad_steps_per_target_update=100
+
+# python run_hw3.py env_name=HalfCheetah-v2 rl_alg=ac ep_len=150 estimate_advantage_args.discount=0.90 n_iter=150 computation_graph_args.n_layers=2 computation_graph_args.size=32 batch_size=30000 eval_batch_size=1500 computation_graph_args.learning_rate=0.02 exp_name=q7_1_100 computation_graph_args.num_target_updates=1 computation_graph_args.num_grad_steps_per_target_update=100

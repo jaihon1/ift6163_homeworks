@@ -87,4 +87,23 @@ class BootstrappedContinuousCritic(nn.Module, BaseCritic):
         # HINT: make sure to squeeze the output of the critic_network to ensure
         #       that its dimensions match the reward
 
+        # YOUR CODE HERE
+
+        ob_no = ptu.from_numpy(ob_no)
+
+        for i in range(self.num_target_updates*self.num_grad_steps_per_target_update):
+            if i%self.num_grad_steps_per_target_update == 0:
+                # get target values only once in a while
+                target_values = reward_n + self.gamma * self.forward_np(next_ob_no) * (1 - terminal_n)
+
+                # modify to tensor
+                target_values = ptu.from_numpy(target_values)
+
+            # update critic
+            self.optimizer.zero_grad()
+            predictions = self(ob_no)
+            loss = self.loss(predictions, target_values)
+            loss.backward()
+            self.optimizer.step()
+
         return loss.item()
