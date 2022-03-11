@@ -383,3 +383,16 @@ class RL_Trainer(object):
 # python run_hw3.py env_name=HalfCheetah-v2 ep_len=150 estimate_advantage_args.discount=0.95 n_iter=100 computation_graph_args.n_layers=2 computation_graph_args.size=32 batch_size=30000 computation_graph_args.learning_rate=0.01 estimate_advantage_args.nn_baseline=true rl_alg=reinforce exp_name=q4_b30000_r0.01_nnbaseline
 
 # python run_hw3.py env_name=HalfCheetah-v2 ep_len=150 estimate_advantage_args.discount=0.95 n_iter=100 computation_graph_args.n_layers=2 computation_graph_args.size=32 batch_size=30000 computation_graph_args.learning_rate=0.01 estimate_advantage_args.reward_to_go=true estimate_advantage_args.nn_baseline=true rl_alg=reinforce exp_name=q4_b30000_r0.01_rtg_nnbaseline
+
+
+# Experiment 5:
+# python run_hw3.py env_name=Hopper-v2 ep_len=1000 rl_alg=reinforce estimate_advantage_args.discount=0.99 n_iter=300 computation_graph_args.n_layers=2 computation_graph_args.size=32 batch_size=2000 computation_graph_args.learning_rate=0.001 estimate_advantage_args.reward_to_go=true estimate_advantage_args.nn_baseline=true action_noise_std=0.5 estimate_advantage_args.gae_lambda=0 estimate_advantage_args.gae=true exp_name=q5_b2000_r0.001_lambda0
+
+# python run_hw3.py env_name=Hopper-v2 ep_len=1000 rl_alg=reinforce estimate_advantage_args.discount=0.99 n_iter=300 computation_graph_args.n_layers=2 computation_graph_args.size=32 batch_size=2000 computation_graph_args.learning_rate=0.001 estimate_advantage_args.reward_to_go=true estimate_advantage_args.nn_baseline=true action_noise_std=0.5 estimate_advantage_args.gae_lambda=0.95 estimate_advantage_args.gae=true exp_name=q5_b2000_r0.001_lambda0.95
+
+# python run_hw3.py env_name=Hopper-v2 ep_len=1000 rl_alg=reinforce estimate_advantage_args.discount=0.99 n_iter=300 computation_graph_args.n_layers=2 computation_graph_args.size=32 batch_size=2000 computation_graph_args.learning_rate=0.001 estimate_advantage_args.reward_to_go=true estimate_advantage_args.nn_baseline=true action_noise_std=0.5 estimate_advantage_args.gae_lambda=0.99 estimate_advantage_args.gae=true exp_name=q5_b2000_r0.001_lambda0.99
+
+# python run_hw3.py env_name=Hopper-v2 ep_len=1000 rl_alg=reinforce estimate_advantage_args.discount=0.99 n_iter=300 computation_graph_args.n_layers=2 computation_graph_args.size=32 batch_size=2000 computation_graph_args.learning_rate=0.001 estimate_advantage_args.reward_to_go=true estimate_advantage_args.nn_baseline=true action_noise_std=0.5 estimate_advantage_args.gae_lambda=1.0 estimate_advantage_args.gae=true exp_name=q5_b2000_r0.001_lambda1.0
+
+
+# Experiment 6:

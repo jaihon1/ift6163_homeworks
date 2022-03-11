@@ -21,6 +21,7 @@ video_log_freq: -1
 scalar_log_freq: 1
 save_params: False
 rl_alg: 'todo'
+action_noise_std: 0.5
 
 computation_graph_args:
    learning_rate: 0.001

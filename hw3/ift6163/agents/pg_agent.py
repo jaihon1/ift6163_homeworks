@@ -143,7 +143,7 @@ class PGAgent(BaseAgent):
             values = (values_unnormalized - values_mean) / values_std
 
 
-            # Note: added new config parameter to control whether to use GAE or not callled gae
+            # Note: added new config parameter to control whether to use GAE or not, callled gae
             if self.gae is True:
                 ## append a dummy T+1 value for simpler recursive calculation
                 values = np.append(values, [0])
@@ -164,7 +164,14 @@ class PGAgent(BaseAgent):
                         ## 0 otherwise.
                     ## HINT 2: self.gae_lambda is the lambda value in the
                         ## GAE formula
-                    y=45 ## Remove: This is just to help with compiling
+                    # y=45 ## Remove: This is just to help with compiling
+
+                    if terminals[i] == 1:
+                        advantages[i] = rews[i] - values[i]
+
+                    else:
+                        advantages[i] = self.gae_lambda * self.gamma * advantages[i + 1] + rews[i] - values[i]
+
 
                 # remove dummy advantage
                 advantages = advantages[:-1]
