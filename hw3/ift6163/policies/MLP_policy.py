@@ -186,7 +186,7 @@ class MLPPolicyPG(MLPPolicy):
 
             # Standardize q_values to have mean 0 and std 1
             q_values = ptu.from_numpy(q_values)
-            q_values = (q_values - q_values.mean()) / q_values.std()
+            q_values = (q_values - q_values.mean()) / (q_values.std() + 1e-8)
 
             # Update the baseline
             self.baseline_optimizer.zero_grad()
