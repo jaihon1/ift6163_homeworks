@@ -116,11 +116,6 @@ class PGAgent(BaseAgent):
         """
             Computes advantages by (possibly) using GAE, or subtracting a baseline from the estimated Q values
         """
-
-        print("In estimate_advantage")
-        print("obs: ", obs.shape)
-        print("q_values: ", q_values.ndim)
-
         # Estimate the advantage when nn_baseline is True,
         # by querying the neural network that you're using to learn the value function
         if self.nn_baseline:

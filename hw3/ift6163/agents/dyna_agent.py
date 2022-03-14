@@ -60,11 +60,11 @@ class MBAgent(BaseAgent):
             # and obtain a train_log
 
         train_log = {}
-        print("training actor")
-        print("observations: ", len(observations))
-        print("actions: ", len(actions))
-        print("rewards_list: ", len(rewards_list))
-        print("next_observations: ", len(next_observations))
+        # print("training actor")
+        # print("observations: ", len(observations))
+        # print("actions: ", len(actions))
+        # print("rewards_list: ", len(rewards_list))
+        # print("next_observations: ", len(next_observations))
 
         # Compute the q-values from rewards
         q_values = self.calculate_q_vals(rewards_list)
@@ -150,10 +150,10 @@ class MBAgent(BaseAgent):
         # Use model to generate one additional next_ob_no for every state in ob_no (using the policy distribution)
         obs_next = random_model.get_prediction(ob_no, ac_na, self.data_statistics)
 
-        print("in TRAIN:")
-        print("obs_next: ", len(obs_next))
-        print("ob_no: ", len(ob_no))
-        print("ac_na: ", len(ac_na))
+        # print("in TRAIN:")
+        # print("obs_next: ", len(obs_next))
+        # print("ob_no: ", len(ob_no))
+        # print("ac_na: ", len(ac_na))
         # Get rewards for the ob_no and ac_na pairs
         rewards = self.env.get_reward(ob_no, ac_na)
 
@@ -181,9 +181,9 @@ class MBAgent(BaseAgent):
         loss['Actor_Loss'] = actor_loss
         loss['FD_Loss'] = np.mean(losses)
 
-        print("loss: ", loss['Actor_Loss'])
-        print("loss: ", loss['Critic_Loss'])
-        print("loss: ", loss['FD_Loss'])
+        # print("loss: ", loss['Actor_Loss'])
+        # print("loss: ", loss['Critic_Loss'])
+        # print("loss: ", loss['FD_Loss'])
 
         return loss
 
@@ -266,10 +266,9 @@ class MBAgent(BaseAgent):
         """
             Computes advantages by (possibly) using GAE, or subtracting a baseline from the estimated Q values
         """
-
-        print("In estimate_advantage")
-        print("obs: ", obs.shape)
-        print("q_values: ", q_values.ndim)
+        # print("In estimate_advantage")
+        # print("obs: ", obs.shape)
+        # print("q_values: ", q_values.ndim)
 
         # Estimate the advantage when nn_baseline is True,
         # by querying the neural network that you're using to learn the value function
@@ -340,7 +339,6 @@ class MBAgent(BaseAgent):
             ## and a standard deviation of one
 
             advantages = (advantages - np.mean(advantages)) / (np.std(advantages) + 1e-8)
-            print("advantages: ", advantages)
 
         return advantages
 
