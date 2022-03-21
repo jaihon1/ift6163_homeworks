@@ -17,7 +17,7 @@ scalar_log_freq: -1
 save_params: True
 rl_alg: 'dqn' ## RL training algorithm ['dqn', 'ddpg', 'td3']
 learning_starts: 1024  ## How much initial experience to collect before training begins
-learning_freq: 0 
+learning_freq: 0
 target_update_freq: 1
 exploration_schedule: 0
 optimizer_spec:  0
@@ -36,4 +36,4 @@ discrete: True
 grad_norm_clipping: True
 n_iter: 1000
 polyak_avg: 0.01 ##
-td3_target_policy_noise: 0.1 ## 
+td3_target_policy_noise: 0.1 ##
