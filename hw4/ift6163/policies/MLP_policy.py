@@ -46,7 +46,9 @@ class MLPPolicy(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
             self._logits_na = None
             self._mean_net = ptu.build_mlp(input_size=self._ob_dim,
                                       output_size=self._ac_dim,
-                                      n_layers=self._n_layers, size=self._size)
+                                      n_layers=self._n_layers,
+                                      size=self._size,
+                                      output_activation='tanh')
             self._mean_net.to(ptu.device)
             if self._deterministic:
                 self._optimizer = optim.Adam(
@@ -87,9 +89,30 @@ class MLPPolicy(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
 
     # query the policy with observation(s) to get selected action(s)
     def get_action(self, obs: np.ndarray) -> np.ndarray:
-        # TODO: 
-        ## 
-        pass
+        if len(obs.shape) > 1:
+            observation = obs
+        else:
+            observation = obs[None]
+
+        # TODO return the action that the policy prescribes
+        observation = ptu.from_numpy(observation.astype(np.float32))
+        action = self(observation)
+
+        # print("action type: ", type(action))
+        # print("action: ", action)
+        # print("action.sample(): ", action.sample())
+        # action.sample()
+        # print("action.logits: ", action.logits)
+        # print("action_probs: ", action.probs)
+        # print("action_mean:" , action.mean)
+        # print("manual", torch.nn.functional.softmax(action.logits, dim=1))
+
+        if self._deterministic:
+            action = action
+        else:
+            action = action.sample()
+
+        return ptu.to_numpy(action)
 
     # update/train this policy
     def update(self, observations, actions, **kwargs):
@@ -108,7 +131,8 @@ class MLPPolicy(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
         else:
             if self._deterministic:
                 ##  TODO output for a deterministic policy
-                action_distribution = TODO
+                action_distribution = self._mean_net(observation)
+
             else:
                 batch_mean = self._mean_net(observation)
                 scale_tril = torch.diag(torch.exp(self._logstd))
@@ -181,7 +205,7 @@ class MLPPolicyAC(MLPPolicy):
     def update(self, observations, actions, adv_n=None):
         # TODO: update the policy and return the loss
         return loss.item()
-    
+
 class ConcatMLP(MLPPolicy):
     """
     Concatenate inputs along dimension and then pass through MLP.
@@ -202,9 +226,29 @@ class MLPPolicyDeterministic(MLPPolicy):
     def __init__(self, *args, **kwargs):
         kwargs['deterministic'] = True
         super().__init__(*args, **kwargs)
-        
-    def update(self, observations, q_fun):
+
+    def update(self, observations, q_net):
         # TODO: update the policy and return the loss
         ## Hint you will need to use the q_fun for the loss
         ## Hint: do not update the parameters for q_fun in the loss
+        observations = ptu.from_numpy(observations)
+
+        # predict action
+        action = self.forward(observations)
+
+        # freeze the q_fun parameters. Or maybe use .detach?
+        for param in q_net.parameters():
+            param.requires_grad = False
+
+        # calculate loss
+        loss = -torch.mean(q_net(observations, action))
+
+        self._optimizer.zero_grad()
+        loss.backward()
+        self._optimizer.step()
+
+        # unfreeze the q_fun parameters
+        for param in q_net.parameters():
+            param.requires_grad = True
+
         return loss.item()

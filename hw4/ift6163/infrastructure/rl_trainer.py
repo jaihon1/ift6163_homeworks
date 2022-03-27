@@ -299,6 +299,42 @@ class RL_Trainer(object):
 
         self.logger.flush()
 
+    def perform_ddpg_logging_v2(self, all_logs):
+        last_log = all_logs[-1]
+
+        episode_rewards = get_wrapper_by_name(self.env, "Monitor").get_episode_rewards()
+        if len(episode_rewards) > 0:
+            self.mean_episode_reward = np.mean(episode_rewards[-100:])
+        if len(episode_rewards) > 100:
+            self.best_mean_episode_reward = max(self.best_mean_episode_reward, self.mean_episode_reward)
+
+        logs = OrderedDict()
+
+        logs["Train_EnvstepsSoFar"] = self.agent.t
+        print("Timestep %d" % (self.agent.t,))
+        if self.mean_episode_reward > -5000:
+            logs["Train_AverageReturn"] = np.mean(self.mean_episode_reward)
+        print("mean reward (100 episodes) %f" % self.mean_episode_reward)
+        if self.best_mean_episode_reward > -5000:
+            logs["Train_BestReturn"] = np.mean(self.best_mean_episode_reward)
+        print("best mean reward %f" % self.best_mean_episode_reward)
+
+        if self.start_time is not None:
+            time_since_start = (time.time() - self.start_time)
+            print("running time %f" % time_since_start)
+            logs["TimeSinceStart"] = time_since_start
+
+        logs.update(last_log)
+
+        sys.stdout.flush()
+
+        for key, value in logs.items():
+            print('{} : {}'.format(key, value))
+            self.logger.log_scalar(value, key, self.agent.t)
+        print('Done logging...\n\n')
+
+        self.logger.flush()
+
     def perform_ddpg_logging(self):
         logs = OrderedDict()
         logs['QF Loss'] = np.mean(ptu.get_numpy(qf_loss))
@@ -359,40 +395,80 @@ class RL_Trainer(object):
 
         # save eval metrics
         if self.logmetrics:
-            # returns, for logging
-            train_returns = [path["reward"].sum() for path in paths]
-            eval_returns = [eval_path["reward"].sum() for eval_path in eval_paths]
+            if paths is not None:
+                # returns, for logging
+                train_returns = [path["reward"].sum() for path in paths]
+                eval_returns = [eval_path["reward"].sum() for eval_path in eval_paths]
 
-            # episode lengths, for logging
-            train_ep_lens = [len(path["reward"]) for path in paths]
-            eval_ep_lens = [len(eval_path["reward"]) for eval_path in eval_paths]
+                # episode lengths, for logging
+                train_ep_lens = [len(path["reward"]) for path in paths]
+                eval_ep_lens = [len(eval_path["reward"]) for eval_path in eval_paths]
 
-            # decide what to log
-            logs = OrderedDict()
-            logs["Eval_AverageReturn"] = np.mean(eval_returns)
-            logs["Eval_StdReturn"] = np.std(eval_returns)
-            logs["Eval_MaxReturn"] = np.max(eval_returns)
-            logs["Eval_MinReturn"] = np.min(eval_returns)
-            logs["Eval_AverageEpLen"] = np.mean(eval_ep_lens)
+                # decide what to log
+                logs = OrderedDict()
+                logs["Eval_AverageReturn"] = np.mean(eval_returns)
+                logs["Eval_StdReturn"] = np.std(eval_returns)
+                logs["Eval_MaxReturn"] = np.max(eval_returns)
+                logs["Eval_MinReturn"] = np.min(eval_returns)
+                logs["Eval_AverageEpLen"] = np.mean(eval_ep_lens)
 
-            logs["Train_AverageReturn"] = np.mean(train_returns)
-            logs["Train_StdReturn"] = np.std(train_returns)
-            logs["Train_MaxReturn"] = np.max(train_returns)
-            logs["Train_MinReturn"] = np.min(train_returns)
-            logs["Train_AverageEpLen"] = np.mean(train_ep_lens)
+                logs["Train_AverageReturn"] = np.mean(train_returns)
+                logs["Train_StdReturn"] = np.std(train_returns)
+                logs["Train_MaxReturn"] = np.max(train_returns)
+                logs["Train_MinReturn"] = np.min(train_returns)
+                logs["Train_AverageEpLen"] = np.mean(train_ep_lens)
 
-            logs["Train_EnvstepsSoFar"] = self.total_envsteps
-            logs["TimeSinceStart"] = time.time() - self.start_time
-            logs.update(last_log)
+                logs["Train_EnvstepsSoFar"] = self.total_envsteps
+                logs["TimeSinceStart"] = time.time() - self.start_time
+                logs.update(last_log)
 
-            if itr == 0:
-                self.initial_return = np.mean(train_returns)
-            logs["Initial_DataCollection_AverageReturn"] = self.initial_return
+                if itr == 0:
+                    self.initial_return = np.mean(train_returns)
+                logs["Initial_DataCollection_AverageReturn"] = self.initial_return
 
-            # perform the logging
-            for key, value in logs.items():
-                print('{} : {}'.format(key, value))
-                self.logger.log_scalar(value, key, itr)
-            print('Done logging...\n\n')
+                # perform the logging
+                for key, value in logs.items():
+                    print('{} : {}'.format(key, value))
+                    self.logger.log_scalar(value, key, itr)
+                print('Done logging...\n\n')
 
-            self.logger.flush()
+                self.logger.flush()
+
+            else:
+                # returns, for logging
+                # train_returns = [path["reward"].sum() for path in paths]
+                eval_returns = [eval_path["reward"].sum() for eval_path in eval_paths]
+
+                # episode lengths, for logging
+                # train_ep_lens = [len(path["reward"]) for path in paths]
+                eval_ep_lens = [len(eval_path["reward"]) for eval_path in eval_paths]
+
+                # decide what to log
+                logs = OrderedDict()
+                logs["Eval_AverageReturn"] = np.mean(eval_returns)
+                logs["Eval_StdReturn"] = np.std(eval_returns)
+                logs["Eval_MaxReturn"] = np.max(eval_returns)
+                logs["Eval_MinReturn"] = np.min(eval_returns)
+                logs["Eval_AverageEpLen"] = np.mean(eval_ep_lens)
+
+                # logs["Train_AverageReturn"] = np.mean(train_returns)
+                # logs["Train_StdReturn"] = np.std(train_returns)
+                # logs["Train_MaxReturn"] = np.max(train_returns)
+                # logs["Train_MinReturn"] = np.min(train_returns)
+                # logs["Train_AverageEpLen"] = np.mean(train_ep_lens)
+
+                logs["Train_EnvstepsSoFar"] = self.total_envsteps
+                logs["TimeSinceStart"] = time.time() - self.start_time
+                logs.update(last_log)
+
+                # if itr == 0:
+                    # self.initial_return = np.mean(train_returns)
+                # logs["Initial_DataCollection_AverageReturn"] = self.initial_return
+
+                # perform the logging
+                for key, value in logs.items():
+                    print('{} : {}'.format(key, value))
+                    self.logger.log_scalar(value, key, itr)
+                print('Done logging...\n\n')
+
+                self.logger.flush()

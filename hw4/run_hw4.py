@@ -134,7 +134,29 @@ if __name__ == "__main__":
 
 # Question 3:
 
-# python run_hw4_dqn.py env_name=LunarLander-v3 exp_name=q3_hparam1 learning_rate: 1e-1
-# python run_hw4_dqn.py env_name=LunarLander-v3 exp_name=q3_hparam1 learning_rate: 1e-2
-# python run_hw4_dqn.py env_name=LunarLander-v3 exp_name=q3_hparam2 learning_rate: 1e-3 # default one, no need to run this, we have the data from Question 1
-# python run_hw4_dqn.py env_name=LunarLander-v3 exp_name=q3_hparam3 learning_rate: 1e-4
+# python run_hw4_dqn.py env_name=LunarLander-v3 exp_name=q3_gamma1 gamma=0.50
+# python run_hw4_dqn.py env_name=LunarLander-v3 exp_name=q3_gamma2 gamma=0.90
+# python run_hw4_dqn.py env_name=LunarLander-v3 exp_name=q3_gamma3 gamma=0.95
+# python run_hw4_dqn.py env_name=LunarLander-v3 exp_name=q3_gamma4 gamma=0.99 # default one, no need to run this, we have the data from Question 1
+
+
+# Question 4:
+# python run_hw4.py exp_name=q4_ddpg_up_lr1e-1 rl_alg=ddpg env_name=InvertedPendulum-v2 atari=false learning_rate=1e-1 critic_learning_rate=1e-1 learning_freq=1 scalar_log_freq=1000 n_iter=50000
+# python run_hw4.py exp_name=q4_ddpg_up_lr1e-2 rl_alg=ddpg env_name=InvertedPendulum-v2 atari=false learning_rate=1e-2 critic_learning_rate=1e-2 learning_freq=1 scalar_log_freq=1000 n_iter=50000
+# python run_hw4.py exp_name=q4_ddpg_up_lr1e-3 rl_alg=ddpg env_name=InvertedPendulum-v2 atari=false learning_rate=1e-3 critic_learning_rate=1e-3 learning_freq=1 scalar_log_freq=1000 n_iter=50000
+# python run_hw4.py exp_name=q4_ddpg_up_lr1e-4 rl_alg=ddpg env_name=InvertedPendulum-v2 atari=false learning_rate=1e-3 critic_learning_rate=1e-4 learning_freq=1 scalar_log_freq=1000 n_iter=50000
+
+# python run_hw4.py exp_name=q4_ddpg_up_tuf1 rl_alg=ddpg env_name=InvertedPendulum-v2 atari=false learning_rate=1e-2 critic_learning_rate=1e-2 learning_freq=1 scalar_log_freq=1000 n_iter=50000
+# python run_hw4.py exp_name=q4_ddpg_up_tuf2 rl_alg=ddpg env_name=InvertedPendulum-v2 atari=false learning_rate=1e-2 critic_learning_rate=1e-2 learning_freq=2 scalar_log_freq=1000 n_iter=50000
+# python run_hw4.py exp_name=q4_ddpg_up_tuf4 rl_alg=ddpg env_name=InvertedPendulum-v2 atari=false learning_rate=1e-2 critic_learning_rate=1e-2 learning_freq=4 scalar_log_freq=1000 n_iter=50000
+# python run_hw4.py exp_name=q4_ddpg_up_tuf8 rl_alg=ddpg env_name=InvertedPendulum-v2 atari=false learning_rate=1e-2 critic_learning_rate=1e-2 learning_freq=8 scalar_log_freq=1000 n_iter=50000
+
+# Best results:
+
+# learning_rate=1e-2 critic_learning_rate=1e-2
+# learning_freq=4
+
+# Question 5:
+# python run_hw4.py exp_name=q5_ddpg_hard_uplf2_lr1e-2 rl_alg=ddpg env_name=HalfCheetah-v2 atari=false learning_rate=1e-2 critic_learning_rate=1e-2 learning_freq=4 scalar_log_freq=1000 n_iter=150000 size_hidden_critic=128 size=128
+
+
