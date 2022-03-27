@@ -339,9 +339,8 @@ def get_wrapper_by_name(env, classname):
 
 
 class MemoryOptimizedReplayBuffer(object):
-    
     @classu.hidden_member_initialize
-    def __init__(self, size, frame_history_len, 
+    def __init__(self, size, frame_history_len,
                  lander=False, continuous_actions=False, ac_dim=None):
         """This is a memory efficient implementation of the replay buffer.
 

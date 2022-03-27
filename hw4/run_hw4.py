@@ -114,3 +114,27 @@ if __name__ == "__main__":
     import os
     print("Command Dir:", os.getcwd())
     my_main()
+
+
+
+# Question 1:
+
+# python run_hw4.py env_name=MsPacman-v0 exp_name=q1 scalar_log_freq=1000 n_iter=10000
+# python run_hw4.py env_name=LunarLander-v3 exp_name=q1 scalar_log_freq=1000 n_iter=300000 double_q=False # used for testing
+
+# Question 2:
+# python run_hw4.py env_name=LunarLander-v3 exp_name=q2_dqn_1 seed=1 scalar_log_freq=1000 n_iter=300000 double_q=False
+# python run_hw4.py env_name=LunarLander-v3 exp_name=q2_dqn_2 seed=2 scalar_log_freq=1000 n_iter=300000 double_q=False
+# python run_hw4.py env_name=LunarLander-v3 exp_name=q2_dqn_3 seed=3 scalar_log_freq=1000 n_iter=300000 double_q=False
+
+# python run_hw4.py env_name=LunarLander-v3 exp_name=q2_doubledqn_1 double_q=true seed=1 scalar_log_freq=1000 n_iter=300000
+# python run_hw4.py env_name=LunarLander-v3 exp_name=q2_doubledqn_2 double_q=true seed=2 scalar_log_freq=1000 n_iter=300000
+# python run_hw4.py env_name=LunarLander-v3 exp_name=q2_doubledqn_3 double_q=true seed=3 scalar_log_freq=1000 n_iter=300000
+
+
+# Question 3:
+
+# python run_hw4_dqn.py env_name=LunarLander-v3 exp_name=q3_hparam1 learning_rate: 1e-1
+# python run_hw4_dqn.py env_name=LunarLander-v3 exp_name=q3_hparam1 learning_rate: 1e-2
+# python run_hw4_dqn.py env_name=LunarLander-v3 exp_name=q3_hparam2 learning_rate: 1e-3 # default one, no need to run this, we have the data from Question 1
+# python run_hw4_dqn.py env_name=LunarLander-v3 exp_name=q3_hparam3 learning_rate: 1e-4

@@ -137,6 +137,8 @@ class RL_Trainer(object):
 
         print_period = 1000 if isinstance(self.agent, DQNAgent) else 1
 
+        print("number of iterations", n_iter)
+
         for itr in range(n_iter):
             if itr % print_period == 0:
                 print("\n\n********** Iteration %i ************"%itr)
@@ -239,7 +241,7 @@ class RL_Trainer(object):
 
     def train_agent(self):
         # TODO: get this from hw1 or hw2
-        print('\nTraining agent using sampled data from replay buffer...')
+        # print('\nTraining agent using sampled data from replay buffer...')
         all_logs = []
         for train_step in range(self.params['num_agent_train_steps_per_iter']):
 

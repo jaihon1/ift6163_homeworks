@@ -36,7 +36,7 @@ class DQNCritic(BaseCritic):
         network_initializer = hparams['q_func']
         self.q_net = network_initializer(self.ob_dim, self.ac_dim)
         self.q_net_target = network_initializer(self.ob_dim, self.ac_dim)
-        
+
         self.optimizer = self.optimizer_spec.constructor(
             self.q_net.parameters(),
             **self.optimizer_spec.optim_kwargs
@@ -73,11 +73,12 @@ class DQNCritic(BaseCritic):
         reward_n = ptu.from_numpy(reward_n)
         terminal_n = ptu.from_numpy(terminal_n)
 
+        # print("ac_na",ac_na)
         qa_t_values = self.q_net(ob_no)
         q_t_values = torch.gather(qa_t_values, 1, ac_na.unsqueeze(1)).squeeze(1)
-        
-        # TODO compute the Q-values from the target network 
-        qa_tp1_values = TODO
+
+        # TODO compute the Q-values from the target network
+        qa_tp1_values = self.q_net_target(next_ob_no)
 
         if self.double_q:
             # You must fill this part for Q2 of the Q-learning portion of the homework.
@@ -85,14 +86,31 @@ class DQNCritic(BaseCritic):
             # is being updated, but the Q-value for this action is obtained from the
             # target Q-network. Please review Lecture 8 for more details,
             # and page 4 of https://arxiv.org/pdf/1509.06461.pdf is also a good reference.
-            TODO
+
+            # Compute the q-values from the q-network using q_net
+            qa_values = self.q_net(next_ob_no)
+
+            # Get the actions that maximizes the q-values from the q-net
+            action = torch.argmax(qa_values, dim=1)
+            # print("max arg action", action.unsqueeze(1))
+
+            # print("q-vals", qa_values.shape)
+            # print("action", action.shape)
+
+            # Get the q-values for the actions from the q-net
+            q_tp1 = torch.gather(qa_tp1_values, 1, action.unsqueeze(1)).squeeze(1)
+
+            # print("q_tp1", q_tp1.shape)
+
         else:
             q_tp1, _ = qa_tp1_values.max(dim=1)
 
         # TODO compute targets for minimizing Bellman error
         # HINT: as you saw in lecture, this would be:
             #currentReward + self.gamma * qValuesOfNextTimestep * (not terminal)
-        target = TODO
+        # print("calculate targets")
+        # print(reward_n.shape, q_tp1.shape, terminal_n.shape)
+        target = reward_n + self.gamma * q_tp1 * (1 - terminal_n)
         target = target.detach()
 
         assert q_t_values.shape == target.shape
@@ -104,7 +122,7 @@ class DQNCritic(BaseCritic):
         self.optimizer.step()
         self.learning_rate_scheduler.step()
         return {
-            'Training Loss': ptu.to_numpy(loss),
+            'Training_Loss': ptu.to_numpy(loss),
         }
 
     def update_target_network(self):
@@ -116,6 +134,6 @@ class DQNCritic(BaseCritic):
     def qa_values(self, obs):
         obs = ptu.from_numpy(obs)
         qa_values = self.q_net(obs)
-        if self.double_q:
-            qa_values = qa_values.view(-1,2,self.ac_dim)
+        # if self.double_q:
+        #     qa_values = qa_values.view(-1,2,self.ac_dim)
         return ptu.to_numpy(qa_values)
