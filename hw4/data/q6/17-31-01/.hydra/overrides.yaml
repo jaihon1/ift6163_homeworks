@@ -1,0 +1,12 @@
+- exp_name=q6_td3_tuf10
+- rl_alg=td3
+- env_name=InvertedPendulum-v2
+- atari=false
+- target_update_freq=10
+- actor_update_freq=10
+- td3_target_policy_noise=0.2
+- learning_rate=1e-2
+- critic_learning_rate=1e-2
+- learning_freq=1
+- scalar_log_freq=1000
+- n_iter=50000

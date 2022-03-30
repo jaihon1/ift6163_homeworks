@@ -160,3 +160,26 @@ if __name__ == "__main__":
 # python run_hw4.py exp_name=q5_ddpg_hard_uplf2_lr1e-2 rl_alg=ddpg env_name=HalfCheetah-v2 atari=false learning_rate=1e-2 critic_learning_rate=1e-2 learning_freq=4 scalar_log_freq=1000 n_iter=150000 size_hidden_critic=128 size=128
 
 
+# Question 6:
+# python run_hw4.py exp_name=q6_td3_rho0.1 rl_alg=td3 env_name=InvertedPendulum-v2 atari=false td3_target_policy_noise=0.1 learning_rate=1e-2 critic_learning_rate=1e-2 learning_freq=1 scalar_log_freq=1000 n_iter=50000
+# python run_hw4.py exp_name=q6_td3_rho0.2 rl_alg=td3 env_name=InvertedPendulum-v2 atari=false td3_target_policy_noise=0.2 learning_rate=1e-2 critic_learning_rate=1e-2 learning_freq=1 scalar_log_freq=1000 n_iter=50000
+# python run_hw4.py exp_name=q6_td3_rho0.4 rl_alg=td3 env_name=InvertedPendulum-v2 atari=false td3_target_policy_noise=0.4 learning_rate=1e-2 critic_learning_rate=1e-2 learning_freq=1 scalar_log_freq=1000 n_iter=50000
+# python run_hw4.py exp_name=q6_td3_rho0.8 rl_alg=td3 env_name=InvertedPendulum-v2 atari=false td3_target_policy_noise=0.8 learning_rate=1e-2 critic_learning_rate=1e-2 learning_freq=1 scalar_log_freq=1000 n_iter=50000
+
+
+# python run_hw4.py exp_name=q6_td3_tuf1 rl_alg=td3 env_name=InvertedPendulum-v2 atari=false target_update_freq=1 actor_update_freq=1 td3_target_policy_noise=0.2 learning_rate=1e-2 critic_learning_rate=1e-2 learning_freq=1 scalar_log_freq=1000 n_iter=50000
+# python run_hw4.py exp_name=q6_td3_tuf2 rl_alg=td3 env_name=InvertedPendulum-v2 atari=false target_update_freq=2 actor_update_freq=2 td3_target_policy_noise=0.2 learning_rate=1e-2 critic_learning_rate=1e-2 learning_freq=1 scalar_log_freq=1000 n_iter=50000
+# python run_hw4.py exp_name=q6_td3_tuf5 rl_alg=td3 env_name=InvertedPendulum-v2 atari=false target_update_freq=5 actor_update_freq=5 td3_target_policy_noise=0.2 learning_rate=1e-2 critic_learning_rate=1e-2 learning_freq=1 scalar_log_freq=1000 n_iter=50000
+# python run_hw4.py exp_name=q6_td3_tuf10 rl_alg=td3 env_name=InvertedPendulum-v2 atari=false target_update_freq=10 actor_update_freq=10 td3_target_policy_noise=0.2 learning_rate=1e-2 critic_learning_rate=1e-2 learning_freq=1 scalar_log_freq=1000 n_iter=50000
+# python run_hw4.py exp_name=q6_td3_tuf50 rl_alg=td3 env_name=InvertedPendulum-v2 atari=false target_update_freq=50 actor_update_freq=50 td3_target_policy_noise=0.2 learning_rate=1e-2 critic_learning_rate=1e-2 learning_freq=1 scalar_log_freq=1000 n_iter=50000
+# python run_hw4.py exp_name=q6_td3_tuf100 rl_alg=td3 env_name=InvertedPendulum-v2 atari=false target_update_freq=100 actor_update_freq=100 td3_target_policy_noise=0.2 learning_rate=1e-2 critic_learning_rate=1e-2 learning_freq=1 scalar_log_freq=1000 n_iter=50000
+
+# Best results:
+# td3_target_policy_noise=0.2
+# target_update_freq=5
+# actor_update_freq=5
+
+
+# Question 7:
+
+# python run_hw4.py exp_name=q6_td3_tuf10_rho0.2 rl_alg=td3 env_name=HalfCheetah-v2 atari=false target_update_freq=10 actor_update_freq=10 td3_target_policy_noise=0.2 learning_rate=1e-2 critic_learning_rate=1e-2 learning_freq=4 scalar_log_freq=1000 n_iter=50000 size_hidden_critic=128 size=128

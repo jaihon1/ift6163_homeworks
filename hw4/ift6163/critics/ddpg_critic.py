@@ -27,6 +27,7 @@ class DDPGCritic(BaseCritic):
         self.grad_norm_clipping = hparams['grad_norm_clipping']
         self.gamma = hparams['gamma']
         self.polyak = hparams['polyak_avg']
+        self.td3_target_policy_noise = hparams['td3_target_policy_noise']
 
         print("polyak: ", self.polyak)
         out_size = 1

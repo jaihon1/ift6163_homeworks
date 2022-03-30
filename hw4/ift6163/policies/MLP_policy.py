@@ -48,7 +48,7 @@ class MLPPolicy(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
                                       output_size=self._ac_dim,
                                       n_layers=self._n_layers,
                                       size=self._size,
-                                      output_activation='tanh')
+                                      output_activation='identity')
             self._mean_net.to(ptu.device)
             if self._deterministic:
                 self._optimizer = optim.Adam(
