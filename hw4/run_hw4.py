@@ -56,7 +56,7 @@ def my_main(cfg: DictConfig):
     my_app(cfg)
 
 
-def my_app(cfg: DictConfig): 
+def my_app(cfg: DictConfig):
     print(OmegaConf.to_yaml(cfg))
     import os
     print("Command Dir:", os.getcwd())
@@ -67,7 +67,7 @@ def my_app(cfg: DictConfig):
         cfg['ep_len']=500
     if cfg['env_name']=='obstacles-ift6163-v0':
         cfg['ep_len']=100
-        
+
     params = vars(cfg)
     # params.extend(env_args)
     for key, value in cfg.items():
