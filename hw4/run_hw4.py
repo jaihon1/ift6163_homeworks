@@ -119,7 +119,7 @@ if __name__ == "__main__":
 
 # Question 1:
 
-# python run_hw4.py env_name=MsPacman-v0 exp_name=q1 scalar_log_freq=1000 n_iter=10000
+# python run_hw4.py env_name=MsPacman-v0 exp_name=q1 scalar_log_freq=1000 n_iter=300000 double_q=False
 # python run_hw4.py env_name=LunarLander-v3 exp_name=q1 scalar_log_freq=1000 n_iter=300000 double_q=False # used for testing
 
 # Question 2:
@@ -134,10 +134,15 @@ if __name__ == "__main__":
 
 # Question 3:
 
-# python run_hw4_dqn.py env_name=LunarLander-v3 exp_name=q3_gamma1 gamma=0.50
-# python run_hw4_dqn.py env_name=LunarLander-v3 exp_name=q3_gamma2 gamma=0.90
-# python run_hw4_dqn.py env_name=LunarLander-v3 exp_name=q3_gamma3 gamma=0.95
-# python run_hw4_dqn.py env_name=LunarLander-v3 exp_name=q3_gamma4 gamma=0.99 # default one, no need to run this, we have the data from Question 1
+# python run_hw4.py env_name=LunarLander-v3 exp_name=q3_gamma50 gamma=0.50 scalar_log_freq=1000 n_iter=300000 double_q=False
+# python run_hw4.py env_name=LunarLander-v3 exp_name=q3_gamma90 gamma=0.90 scalar_log_freq=1000 n_iter=300000 double_q=False
+# python run_hw4.py env_name=LunarLander-v3 exp_name=q3_gamma95 gamma=0.95 scalar_log_freq=1000 n_iter=300000 double_q=False
+# python run_hw4.py env_name=LunarLander-v3 exp_name=q3_gamma99 gamma=0.99 scalar_log_freq=1000 n_iter=300000 double_q=False
+
+# python run_hw4.py env_name=LunarLander-v3 exp_name=q3_lr1e-1 learning_rate=1e-1 critic_learning_rate=1e-1 scalar_log_freq=1000 n_iter=300000 double_q=False
+# python run_hw4.py env_name=LunarLander-v3 exp_name=q3_lr1e-2 learning_rate=1e-2 critic_learning_rate=1e-2 scalar_log_freq=1000 n_iter=300000 double_q=False
+# python run_hw4.py env_name=LunarLander-v3 exp_name=q3_lr1e-3 learning_rate=1e-3 critic_learning_rate=1e-3 scalar_log_freq=1000 n_iter=300000 double_q=False
+# python run_hw4.py env_name=LunarLander-v3 exp_name=q3_lr1e-4 learning_rate=1e-4 critic_learning_rate=1e-4 scalar_log_freq=1000 n_iter=300000 double_q=False
 
 
 # Question 4:
@@ -182,4 +187,4 @@ if __name__ == "__main__":
 
 # Question 7:
 
-# python run_hw4.py exp_name=q6_td3_tuf10_rho0.2 rl_alg=td3 env_name=HalfCheetah-v2 atari=false target_update_freq=10 actor_update_freq=10 td3_target_policy_noise=0.2 learning_rate=1e-2 critic_learning_rate=1e-2 learning_freq=4 scalar_log_freq=1000 n_iter=50000 size_hidden_critic=128 size=128
+# python run_hw4.py exp_name=q7_td3_tuf10_rho0.2 rl_alg=td3 env_name=HalfCheetah-v2 atari=false target_update_freq=5 actor_update_freq=5 td3_target_policy_noise=0.2 learning_rate=1e-2 critic_learning_rate=1e-2 learning_freq=4 scalar_log_freq=1000 n_iter=150000 size_hidden_critic=128 size=128

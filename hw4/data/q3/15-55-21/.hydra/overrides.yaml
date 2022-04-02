@@ -1,0 +1,7 @@
+- env_name=LunarLander-v3
+- exp_name=q3_lr1e-4
+- learning_rate=1e-4
+- critic_learning_rate=1e-4
+- scalar_log_freq=1000
+- n_iter=300000
+- double_q=False
