@@ -41,8 +41,6 @@ class TD3Critic(DDPGCritic):
         ## Hint: you will need to use the target policy
         action = self.actor_target(next_ob_no)
         noise = torch.randn(self.ac_dim) * self.td3_target_policy_noise
-        # print('noise', noise)
-        # noise = noise.clamp(-0.5, 0.5)
         action = action + noise
 
         qa_tp1_values = self.q_net_target(next_ob_no, action).squeeze()
