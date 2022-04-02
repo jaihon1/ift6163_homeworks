@@ -1,9 +1,0 @@
-- exp_name=q4_ddpg_up_lr1e-2
-- rl_alg=ddpg
-- env_name=InvertedPendulum-v2
-- atari=false
-- learning_rate=1e-2
-- critic_learning_rate=1e-2
-- learning_freq=1
-- scalar_log_freq=1000
-- n_iter=50000

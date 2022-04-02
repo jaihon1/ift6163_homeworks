@@ -1,6 +1,0 @@
-- env_name=LunarLander-v3
-- exp_name=q3_gamma50
-- gamma=0.50
-- scalar_log_freq=1000
-- n_iter=300000
-- double_q=False

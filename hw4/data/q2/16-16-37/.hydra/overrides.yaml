@@ -1,6 +1,0 @@
-- env_name=LunarLander-v3
-- exp_name=q2_doubledqn_2
-- double_q=true
-- seed=2
-- scalar_log_freq=1000
-- n_iter=300000
